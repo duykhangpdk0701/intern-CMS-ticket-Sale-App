@@ -1,0 +1,24 @@
+@import "../../Styles/color";
+
+.sidebar {
+  height: calc(100vh - 85px);
+  background-color: $backGroundColorMain;
+  padding: 33px;
+}
+
+.menu {
+  background-color: $backGroundColorMain;
+  border: none;
+}
+
+.itemMenu {
+  height: 56px !important;
+  border-radius: 8px;
+  background-color: $backGroundColorMain;
+}
+
+.subMenu {
+  height: 56px !important;
+  border-radius: 8px;
+  background-color: $backGroundColorMain;
+}
