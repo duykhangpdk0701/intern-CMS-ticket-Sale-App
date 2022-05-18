@@ -5,12 +5,12 @@ export const TICKET_PACKAGE_GET_SUCCESS = "TICKET_PACKAGE_GET_SUCCESS";
 
 export type TicketPackageTypes = {
   id: string;
-  comboPrice: string;
-  name: string;
-  price: number;
-  status: boolean;
-  validDate: Date;
-  expiryDate: Date;
+  comboPrice: string | null;
+  name: string | null;
+  price: number | null;
+  status: boolean | null;
+  validDate: Date | null;
+  expiryDate: Date | null;
 };
 
 export interface TicketPackageLoading {

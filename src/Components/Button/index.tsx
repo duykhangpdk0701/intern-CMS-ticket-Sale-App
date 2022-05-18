@@ -5,7 +5,7 @@ const Button = (props: any) => {
   const { title, variant } = props;
 
   let style = styles.outlined;
-  if (variant == "fill") style = styles.fill;
+  if (variant === "fill") style = styles.fill;
 
   return (
     <button className={`${styles.button} ${style}`} {...props}>

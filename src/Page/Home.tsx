@@ -1,11 +1,8 @@
-import { Space, Table, Typography } from "antd";
+import { Typography } from "antd";
 import React from "react";
-import Button from "../Components/Button";
-import SearchInput from "../Components/SearchInput";
 import styles from "./Home.module.scss";
 
 const { Title } = Typography;
-const { Column } = Table;
 
 const Home = () => {
   return (

@@ -42,13 +42,13 @@ const SideBar = () => {
 
         <Menu.Item
           className={styles.itemMenu}
-          key="setting"
+          key="service"
           title="Cài đặt"
           icon={<SettingIcon />}>
           <Link to="/service">Cài đặt</Link>
         </Menu.Item>
 
-        <Menu.Item disabled className={styles.itemMenu} key="service">
+        <Menu.Item disabled className={styles.itemMenu} key="">
           Gói dịch vụ
         </Menu.Item>
       </Menu>

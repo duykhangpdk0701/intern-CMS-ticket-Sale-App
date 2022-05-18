@@ -44,11 +44,15 @@ const TicketPackage = () => {
 
       <div className={styles.tableContainer}>
         <Table
+          rowClassName={styles.row}
           size="middle"
           loading={ticketPackagesState.loading}
           dataSource={ticketPackagesState.current}
           className={styles.table}
-          pagination={{ size: "small", position: ["bottomCenter"] }}>
+          pagination={{ size: "small", position: ["bottomCenter"] }}
+          onHeaderRow={(columns, index) => ({
+            className: styles.header,
+          })}>
           <Column
             align="center"
             title="STT"
@@ -110,6 +114,7 @@ const TicketPackage = () => {
             dataIndex="comboPrice"
             key="comboPrice"
             render={(text, record, index) => {
+              if (text === null) return <></>;
               const combo = formatComboPrice(text);
               return (
                 <Space>

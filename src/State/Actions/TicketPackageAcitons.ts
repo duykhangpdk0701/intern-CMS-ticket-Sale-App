@@ -24,6 +24,7 @@ export const getTicketPackage =
 
       queryTicketPackage.forEach((value) => {
         const temp = value.data();
+        console.log(temp);
         const id = value.id;
         ticketPackage.push({
           id: id,
@@ -34,7 +35,7 @@ export const getTicketPackage =
           validDate: temp.validDate,
           expiryDate: temp.expiryDate,
         });
-
+        ticketPackage.reverse();
         dispatch({
           type: TICKET_PACKAGE_GET_SUCCESS,
           payload: ticketPackage,
