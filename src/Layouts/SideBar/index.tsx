@@ -40,15 +40,17 @@ const SideBar = () => {
           <Link to="/invoice">Đối soát vé</Link>
         </Menu.Item>
 
-        <Menu.SubMenu
-          className={styles.subMenu}
+        <Menu.Item
+          className={styles.itemMenu}
           key="setting"
           title="Cài đặt"
           icon={<SettingIcon />}>
-          <Menu.Item className={styles.itemMenu} key="service">
-            <Link to="/service">Gỏi dịch vụ</Link>
-          </Menu.Item>
-        </Menu.SubMenu>
+          <Link to="/service">Cài đặt</Link>
+        </Menu.Item>
+
+        <Menu.Item disabled className={styles.itemMenu} key="service">
+          Gói dịch vụ
+        </Menu.Item>
       </Menu>
 
       <div></div>

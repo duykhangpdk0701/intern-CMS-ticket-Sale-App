@@ -1,0 +1,23 @@
+@import "../../Styles/color";
+
+.button {
+  padding: 11px 24px 11px 24px;
+  height: 48px;
+  border: none;
+  font-weight: 700;
+  font-size: 18px;
+  border-radius: 8px;
+  line-height: 26px;
+  cursor: pointer;
+}
+
+.outlined {
+  border: 1px solid $secondaryColor;
+  color: $secondaryColor;
+  background-color: white;
+}
+
+.fill {
+  background-color: $secondaryColor;
+  color: white;
+}

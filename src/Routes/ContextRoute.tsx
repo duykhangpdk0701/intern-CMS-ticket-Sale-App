@@ -6,6 +6,7 @@ import SideBar from "../Layouts/SideBar";
 import Home from "../Page/Home";
 import ManageTicket from "../Page/ManageTicket";
 import TicketPackage from "../Page/TicketPackage";
+import styles from "./ContextRoute.module.scss";
 
 const { Content } = Layout;
 
@@ -15,7 +16,7 @@ const ContextRoute = () => {
       <Header />
       <Layout>
         <SideBar />
-        <Content>
+        <Content className={styles.context}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="manage" element={<ManageTicket />} />
