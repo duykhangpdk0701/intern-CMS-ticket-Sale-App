@@ -6,7 +6,7 @@ import {
   INVOICE_TICKET_LOADING,
 } from "../ActionTypes/InvoiceTicketTypes";
 
-interface defaultState {
+export interface defaultState {
   loading: boolean;
   error?: Error;
   current?: InvoiceTicketTypes[];
@@ -30,7 +30,7 @@ const InvoiceTicketReducer = (
 
     case INVOICE_TICKET_LOADING:
       return {
-        loading: false,
+        loading: true,
         current: state.current,
       };
 

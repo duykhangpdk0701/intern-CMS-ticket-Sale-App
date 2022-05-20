@@ -45,3 +45,14 @@ export const getTickets =
       });
     }
   };
+
+export const getTicketsWithFilter =
+  () => async (dispatch: Dispatch<TicketDispatchTypes>) => {
+    try {
+    } catch (error) {
+      dispatch({
+        type: TICKET_FAIL,
+        error: error as Error,
+      });
+    }
+  };

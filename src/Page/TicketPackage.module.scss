@@ -64,3 +64,8 @@
     width: 0 !important;
   }
 }
+.actionBtn {
+  display: flex;
+  align-items: center;
+  color: $secondaryColor;
+}

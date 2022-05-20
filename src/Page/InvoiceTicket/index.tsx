@@ -1,12 +1,12 @@
-import { Space, Table, Typography } from "antd";
+import { Space, Table, Typography, Button } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../Components/Button";
-import SearchInput from "../Components/SearchInput";
-import { formatDate } from "../helper/formatDate";
-import { getInvoiceTickets } from "../State/Actions/InvoiceTicketActions";
-import { RootStore } from "../State/Store";
+import SearchInput from "../../Components/SearchInput";
+import { formatDate } from "../../helper/formatDate";
+import { getInvoiceTickets } from "../../State/Actions/InvoiceTicketActions";
+import { RootStore } from "../../State/Store";
 import styles from "./InvoiceTicket.module.scss";
+import InvoiceTicketForm from "./InvoiceTicketForm";
 
 const { Title } = Typography;
 const { Column } = Table;
@@ -37,7 +37,9 @@ const InvoiceTicket = () => {
           </div>
 
           <div>
-            <Button variant="fill" title="Chốt đối soát" />
+            <Button size="large" type="primary">
+              Chốt đối soát
+            </Button>
           </div>
         </div>
 
@@ -57,7 +59,7 @@ const InvoiceTicket = () => {
               title="STT"
               dataIndex="stt"
               key="stt"
-              render={(text, record, index) => (
+              render={(value, record, index) => (
                 <Space>
                   <span>{index + 1}</span>
                 </Space>
@@ -70,8 +72,8 @@ const InvoiceTicket = () => {
               title="Ngày sử dụng"
               dataIndex="dateUse"
               key="dateUse"
-              render={(text, record, index) => {
-                const date = formatDate(text);
+              render={(value, record, index) => {
+                const date = formatDate(value);
 
                 return (
                   <>
@@ -107,7 +109,7 @@ const InvoiceTicket = () => {
               dataIndex="status"
               key="status"
               render={(value, record, index) => {
-                if (value == true)
+                if (value === true)
                   return (
                     <Space>
                       <span>Đã đối soát</span>
@@ -124,7 +126,14 @@ const InvoiceTicket = () => {
         </div>
       </div>
 
-      <div className={styles.filterContainer}></div>
+      <div className={styles.filterContainer}>
+        <div className={styles.titleFilterContainer}>
+          <Title level={3} className={styles.titleFilter}>
+            Lọc vé
+          </Title>
+        </div>
+        <InvoiceTicketForm />
+      </div>
     </div>
   );
 };

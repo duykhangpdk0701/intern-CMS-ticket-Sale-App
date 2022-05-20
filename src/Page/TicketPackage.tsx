@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTicketPackage } from "../State/Actions/TicketPackageAcitons";
 import { RootStore } from "../State/Store";
-import { Space, Table, Typography, Button as ButtonAntd } from "antd";
+import { Space, Table, Typography, Button } from "antd";
 import styles from "./TicketPackage.module.scss";
-import Button from "../Components/Button";
 import SearchInput from "../Components/SearchInput";
 import EditIcon from "../Assets/Icon/EditIcon";
 import { formatComboPrice, formatMoney } from "../helper/formatPrice";
@@ -37,8 +36,16 @@ const TicketPackage = () => {
         </div>
 
         <div>
-          <Button style={{ marginRight: "24px" }} title="Xuất file (.csv)" />
-          <Button variant="fill" title="Thêm gói vé" />
+          <Button
+            size="large"
+            type="primary"
+            ghost
+            style={{ marginRight: "24px" }}>
+            Xuất file (.csv)
+          </Button>
+          <Button size="large" type="primary">
+            Thêm gói vé
+          </Button>
         </div>
       </div>
 
@@ -130,9 +137,10 @@ const TicketPackage = () => {
             key="action"
             render={(text, record) => (
               <Space>
-                <ButtonAntd icon={<EditIcon />} type="text">
-                  Cập nhật
-                </ButtonAntd>
+                <Button type="text" className={styles.actionBtn}>
+                  <EditIcon />
+                  <span>Cập nhật</span>
+                </Button>
               </Space>
             )}
           />

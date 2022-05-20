@@ -1,4 +1,4 @@
-@import "../Styles/color";
+@import "../../Styles/color";
 
 .mainContext {
   display: flex;
@@ -78,4 +78,15 @@
   background-color: white;
   border-radius: 24px;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.titleFilterContainer {
+  margin-bottom: 32px;
+}
+
+.titleFilter {
+  font-weight: 700 !important;
 }

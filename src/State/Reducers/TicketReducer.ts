@@ -6,7 +6,7 @@ import {
   TICKET_LOADING,
 } from "../ActionTypes/TicketTypes";
 
-interface defaultState {
+export interface defaultState {
   loading: boolean;
   error?: Error;
   current?: TicketTypes[];
