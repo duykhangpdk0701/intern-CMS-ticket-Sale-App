@@ -1,5 +1,6 @@
 export const TICKET_ADD_SUCCESS = "TICKET_ADD_SUCCESS";
 export const TICKET_GET_SUCCESS = "TICKET_GET_SUCCESS";
+export const TICKET_GET_WITH_FILTER_SUCCESS = "TICKET_GET_WITH_FILTER_SUCCESS";
 export const TICKET_FAIL = "TICKET_FAIL";
 export const TICKET_LOADING = "TICKET_LOADING";
 
@@ -11,6 +12,13 @@ export type TicketTypes = {
   dateUse: Date | null;
   nameEvent: string | null;
   statusUsage: number | null;
+};
+
+export type TicketFilterTypes = {
+  dateForm: Date;
+  dateTo: Date;
+  status: string | boolean;
+  checkIn: string[];
 };
 
 export interface TicketLoading {
@@ -32,8 +40,14 @@ export interface TicketGetSuccess {
   payload: TicketTypes[];
 }
 
+export interface TicketGetWithFilterSuccess {
+  type: typeof TICKET_GET_WITH_FILTER_SUCCESS;
+  payload: TicketTypes[];
+}
+
 export type TicketDispatchTypes =
   | TicketLoading
   | TicketFail
   | TicketAddSuccess
-  | TicketGetSuccess;
+  | TicketGetSuccess
+  | TicketGetWithFilterSuccess;

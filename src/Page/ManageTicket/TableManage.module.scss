@@ -17,3 +17,19 @@
 .row:nth-child(2n) {
   background-color: $backGroundColorTableCell;
 }
+
+.header {
+  th {
+    background-color: $backGroundColorTableCell2 !important;
+    height: 48px;
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 600 !important;
+    font-size: 16px;
+    line-height: 26px;
+    color: $textColor !important;
+  }
+  th::before {
+    width: 0 !important;
+  }
+}

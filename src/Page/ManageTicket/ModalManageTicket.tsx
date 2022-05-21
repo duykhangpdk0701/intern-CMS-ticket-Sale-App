@@ -8,7 +8,10 @@ import {
   Typography,
 } from "antd";
 import React from "react";
+import { TicketFilterTypes } from "../../State/ActionTypes/TicketTypes";
+import { getTicketsWithFilter } from "../../State/Actions/TicketActions";
 import styles from "./ModalManageTicket.module.scss";
+import { useDispatch } from "react-redux";
 
 type ModalManageTicketType = {
   modalVisible: boolean;
@@ -16,16 +19,17 @@ type ModalManageTicketType = {
 };
 
 const ModalManageTicket = (props: ModalManageTicketType) => {
-  const [form] = Form.useForm<{
-    dateForm: Date;
-    dateTo: Date;
-    status: boolean | string;
-    checkIn: string;
-  }>();
+  const dispatch = useDispatch();
 
-  const handleOkFilter = async () => {
-    console.log(form.getFieldValue);
-    props.setModalVisible(false);
+  const onFinish = async (value: TicketFilterTypes) => {
+    try {
+      console.log(value);
+      dispatch(getTicketsWithFilter(value));
+      props.setModalVisible(false);
+    } catch (error) {
+      console.log(error);
+      props.setModalVisible(false);
+    }
   };
 
   return (
@@ -40,26 +44,25 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
       }
       centered
       visible={props.modalVisible}
-      onOk={handleOkFilter}
       closable={false}
       onCancel={() => props.setModalVisible(false)}
       footer={[
         <div className={styles.modalButtonContainer}>
           <Form.Item>
             <Button
+              form="ticketFilter"
               htmlType="submit"
               className={styles.modalButton}
               size="large"
               key="submit"
               ghost
-              type="primary"
-              onClick={handleOkFilter}>
+              type="primary">
               Lọc
             </Button>
           </Form.Item>
         </div>,
       ]}>
-      <Form form={form} layout="vertical">
+      <Form id="ticketFilter" onFinish={onFinish} layout="vertical">
         <div className={styles.datePickerContainer}>
           <Form.Item
             name="dateForm"
@@ -75,9 +78,10 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
 
         <div>
           <Form.Item
+            initialValue={"all"}
             name="status"
             label={<label className="label">Tình trạng sử dụng</label>}>
-            <Radio.Group defaultValue={"all"} className={styles.radioContainer}>
+            <Radio.Group className={styles.radioContainer}>
               <Radio value={"all"}>Tất cả</Radio>
               <Radio value={1}>Đã sử dụng</Radio>
               <Radio value={2}>Chưa sử dụng</Radio>
@@ -88,11 +92,10 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
 
         <div>
           <Form.Item
+            initialValue={["all"]}
             name="checkIn"
             label={<label className="label">Cổng Check - in</label>}>
-            <Checkbox.Group
-              defaultValue={["all"]}
-              className={styles.checkboxContainer}>
+            <Checkbox.Group className={styles.checkboxContainer}>
               <div className={styles.checkboxWrapper}>
                 <Checkbox defaultChecked value={"all"}>
                   Tất cả

@@ -31,11 +31,12 @@ export const getInvoiceTickets =
           checkIn: temp.checkIn,
           status: temp.status,
         });
-        InvoiceTicket.reverse();
-        dispatch({
-          type: INVOICE_TICKET_GET_SUCCESS,
-          payload: InvoiceTicket,
-        });
+      });
+
+      InvoiceTicket.reverse();
+      dispatch({
+        type: INVOICE_TICKET_GET_SUCCESS,
+        payload: InvoiceTicket,
       });
     } catch (error) {
       dispatch({

@@ -3,6 +3,7 @@ import {
   TicketTypes,
   TICKET_FAIL,
   TICKET_GET_SUCCESS,
+  TICKET_GET_WITH_FILTER_SUCCESS,
   TICKET_LOADING,
 } from "../ActionTypes/TicketTypes";
 
@@ -25,13 +26,19 @@ const TicketReducer = (
       return {
         loading: false,
         current: state.current,
-        error: state.error,
+        error: action.error,
       };
 
     case TICKET_LOADING:
       return {
         loading: true,
         current: state.current,
+      };
+
+    case TICKET_GET_WITH_FILTER_SUCCESS:
+      return {
+        loading: false,
+        current: action.payload,
       };
 
     case TICKET_GET_SUCCESS:
