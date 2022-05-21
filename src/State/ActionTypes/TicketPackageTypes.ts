@@ -13,6 +13,25 @@ export type TicketPackageTypes = {
   expiryDate: Date | null;
 };
 
+export type AddTicketPackageTypes = {
+  name: string;
+  validDate: Date;
+  expiryDate: Date;
+  comboPrice: string;
+  price: number;
+  status: boolean;
+};
+
+export type UpdateTicketPackageTypes = {
+  name: string;
+  nameEvent: string;
+  validDate: Date;
+  expiryDate: Date;
+  comboPrice: string;
+  price: number;
+  status: boolean;
+};
+
 export interface TicketPackageLoading {
   type: typeof TICKET_PACKAGE_LOADING;
 }

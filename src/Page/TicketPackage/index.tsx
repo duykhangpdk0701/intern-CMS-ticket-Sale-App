@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTicketPackage } from "../../State/Actions/TicketPackageAcitons";
 import { RootStore } from "../../State/Store";
@@ -6,6 +6,7 @@ import { Typography, Button } from "antd";
 import styles from "./TicketPackage.module.scss";
 import SearchInput from "../../Components/SearchInput";
 import TableTicketPackage from "./TableTicketPackage";
+import ModalAddTicketPackage from "./ModalAddTicketPackage";
 
 const { Title } = Typography;
 
@@ -14,6 +15,7 @@ const TicketPackage = () => {
   const ticketPackagesState = useSelector(
     (state: RootStore) => state.ticketPackages,
   );
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -40,7 +42,16 @@ const TicketPackage = () => {
             style={{ marginRight: "24px" }}>
             Xuất file (.csv)
           </Button>
-          <Button size="large" type="primary">
+
+          <ModalAddTicketPackage
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
+
+          <Button
+            size="large"
+            type="primary"
+            onClick={() => setModalVisible(true)}>
             Thêm gói vé
           </Button>
         </div>

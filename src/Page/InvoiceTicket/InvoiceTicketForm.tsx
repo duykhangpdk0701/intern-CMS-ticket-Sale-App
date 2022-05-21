@@ -5,7 +5,9 @@ import styles from "./InvoiceTicketForm.module.scss";
 const InvoiceTicketForm = () => {
   return (
     <Form>
-      <Form.Item name="status" label="Tình trạng đối soát">
+      <Form.Item
+        name="status"
+        label={<label className="label">Tình trạng đối soát</label>}>
         <Radio.Group defaultValue={"all"}>
           <div className={styles.radioWrapper}>
             <Radio className="radio" value="all">
@@ -17,15 +19,19 @@ const InvoiceTicketForm = () => {
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item label="Loại vé">
+      <Form.Item label={<label className="label">Loại vé</label>}>
         <span>Vé Cổng</span>
       </Form.Item>
 
-      <Form.Item name="dateFrom" label="Từ ngày">
+      <Form.Item
+        name="dateFrom"
+        label={<label className="label">Từ ngày</label>}>
         <DatePicker />
       </Form.Item>
 
-      <Form.Item name="dateEnd" label="Đến ngày">
+      <Form.Item
+        name="dateEnd"
+        label={<label className="label">Đến ngày</label>}>
         <DatePicker />
       </Form.Item>
 

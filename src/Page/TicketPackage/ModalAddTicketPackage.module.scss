@@ -1,0 +1,64 @@
+@import "../../Styles/color";
+
+.modal {
+  border-radius: 16px;
+}
+
+.modalTitle {
+  text-align: center;
+  font-weight: 700 !important;
+}
+
+.modalButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalButton {
+  padding: 0 62px;
+}
+
+.datePickerContainer {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+}
+
+.radioContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.checkboxContainer {
+  width: 100%;
+}
+
+.checkboxWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.priceWrapper {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  span {
+    font-size: 16px !important;
+  }
+}
+
+.input {
+  border-radius: 8px;
+  background-color: $inputBg;
+}
+
+.inputLongOne {
+  width: 148px;
+}
+
+.inputShortOne {
+  width: 72px;
+}
