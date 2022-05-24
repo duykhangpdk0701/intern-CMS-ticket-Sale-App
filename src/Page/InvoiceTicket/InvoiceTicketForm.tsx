@@ -1,14 +1,33 @@
-import { Button, DatePicker, Form, Radio } from "antd";
+import { Button, Form, Radio } from "antd";
 import React from "react";
+import { useDispatch } from "react-redux";
+import DatePickerCustom from "../../Components/DatePicker";
+import { getInvoiceTicketsWithFilter } from "../../State/Actions/InvoiceTicketActions";
+import { FilterInvoiceTicketType } from "../../State/ActionTypes/InvoiceTicketTypes";
 import styles from "./InvoiceTicketForm.module.scss";
 
 const InvoiceTicketForm = () => {
+  const dispatch = useDispatch();
+
+  const onFinish = async (value: FilterInvoiceTicketType) => {
+    console.log(value);
+    try {
+      dispatch(getInvoiceTicketsWithFilter(value));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Form>
+    <Form onFinish={onFinish} className={styles.form}>
       <Form.Item
+        labelAlign="left"
+        className={styles.formItem}
+        initialValue={"all"}
+        key="status"
         name="status"
         label={<label className="label">Tình trạng đối soát</label>}>
-        <Radio.Group defaultValue={"all"}>
+        <Radio.Group>
           <div className={styles.radioWrapper}>
             <Radio className="radio" value="all">
               Tất cả
@@ -19,23 +38,38 @@ const InvoiceTicketForm = () => {
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item label={<label className="label">Loại vé</label>}>
+      <Form.Item
+        labelAlign="left"
+        className={styles.formItem}
+        key="type"
+        label={<label className="label">Loại vé</label>}>
         <span>Vé Cổng</span>
       </Form.Item>
 
       <Form.Item
+        labelAlign="left"
+        className={styles.formItem}
+        key="dateFrom"
         name="dateFrom"
         label={<label className="label">Từ ngày</label>}>
-        <DatePicker />
+        <DatePickerCustom />
       </Form.Item>
 
       <Form.Item
+        labelAlign="left"
+        className={styles.formItem}
+        key="dateEnd"
         name="dateEnd"
         label={<label className="label">Đến ngày</label>}>
-        <DatePicker />
+        <DatePickerCustom />
       </Form.Item>
 
-      <Button className={styles.buttonSubmit} size="large" type="primary" ghost>
+      <Button
+        className={styles.buttonSubmit}
+        htmlType="submit"
+        size="large"
+        type="primary"
+        ghost>
         Lọc
       </Button>
     </Form>

@@ -1,6 +1,8 @@
+import moment from "moment";
 import {
   TicketPackageDispatchTypes,
   TicketPackageTypes,
+  TICKET_PACKAGE_ADD_SUCCESS,
   TICKET_PACKAGE_FAIL,
   TICKET_PACKAGE_GET_SUCCESS,
   TICKET_PACKAGE_LOADING,
@@ -9,11 +11,12 @@ import {
 export interface defaultState {
   loading: boolean;
   error?: Error;
-  current?: TicketPackageTypes[];
+  current: TicketPackageTypes[];
 }
 
 const initialState: defaultState = {
   loading: false,
+  current: [],
 };
 
 const TicketPackageReducer = (
@@ -25,7 +28,7 @@ const TicketPackageReducer = (
       return {
         loading: false,
         current: state.current,
-        error: state.error,
+        error: action.error,
       };
 
     case TICKET_PACKAGE_LOADING:
@@ -38,6 +41,25 @@ const TicketPackageReducer = (
       return {
         loading: false,
         current: action.payload,
+      };
+
+    case TICKET_PACKAGE_ADD_SUCCESS:
+      return {
+        loading: false,
+        current: [
+          ...state.current,
+          {
+            ...action.payload,
+            validDate: {
+              seconds: moment(action.payload.validDate).unix(),
+              nanoseconds: 0,
+            },
+            expiryDate: {
+              seconds: moment(action.payload.validDate).unix(),
+              nanoseconds: 0,
+            },
+          },
+        ],
       };
 
     default:

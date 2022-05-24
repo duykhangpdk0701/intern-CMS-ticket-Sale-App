@@ -3,7 +3,6 @@ const CracoLessPlugin = require("craco-less");
 const primaryColor = "#FFB800";
 const secondaryColor = "#ff993c";
 const checkBoxColor = "#27AEF9";
-const inputBgColor = "#F1F4F8";
 
 module.exports = {
   plugins: [

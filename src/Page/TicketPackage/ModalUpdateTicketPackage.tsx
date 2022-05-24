@@ -8,18 +8,34 @@ import {
   TimePicker,
   Typography,
 } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { TicketPackageTypes } from "../../State/ActionTypes/TicketPackageTypes";
 import styles from "./ModalUpdateTicketPackage.module.scss";
 
-type ModalUpdateTicketPackage = {
-  id: string;
+type ModalUpdateTicketPackageType = {
+  valueItem: TicketPackageTypes;
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackage) => {
+const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
+  const [priceCheck, setPriceCheck] = useState(false);
+  const [comboPriceCheck, setComboPriceCheck] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const valueItem = props.valueItem;
+    if (valueItem.price !== null) {
+      setPriceCheck(true);
+    }
+    if (valueItem.comboPrice !== null) {
+      setComboPriceCheck(true);
+    }
+  }, [props.valueItem]);
+
   const onFinish = async (value: any) => {
-    console.log(value);
+    console.log(props.valueItem);
   };
 
   return (
@@ -48,7 +64,7 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackage) => {
             </Button>
 
             <Button
-              form="addTicket"
+              form="updateTicket"
               htmlType="submit"
               size="large"
               className={styles.modalButton}
@@ -61,48 +77,80 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackage) => {
       ]}>
       <Form onFinish={onFinish} id="updateTicket" layout="vertical">
         <div>
-          <Form.Item label={<label>Mã sự kiện</label>}>
+          <Form.Item
+            initialValue={props.valueItem.id}
+            label={<label>Mã sự kiện</label>}>
             <Input />
           </Form.Item>
-          <Form.Item label={<label>Mã sự kiện</label>}>
+          <Form.Item
+            initialValue={props.valueItem.name}
+            label={<label>Tên sự kiện</label>}>
             <Input />
           </Form.Item>
         </div>
         <div>
           <Form.Item label={<label className="label">Ngày áp dụng</label>}>
-            <DatePicker />
-            <TimePicker />
+            <Form.Item key="validDay" name="validDay">
+              <DatePicker />
+            </Form.Item>
+            <Form.Item key="validTime" name="validTime">
+              <TimePicker />
+            </Form.Item>
           </Form.Item>
           <Form.Item label={<label className="label">Ngày hết hạn</label>}>
-            <DatePicker />
-            <TimePicker />
+            <Form.Item key="expiryDay" name="expiryDay">
+              <DatePicker />
+            </Form.Item>
+            <Form.Item key="expiryTime" name="expiryTime">
+              <TimePicker />
+            </Form.Item>
           </Form.Item>
         </div>
 
         <div>
           <Form.Item label={<label className="label">Giá vé áp dụng</label>}>
-            <Form.Item name="price">
+            <Form.Item>
               <div className={styles.priceWrapper}>
-                <Checkbox>Vé lẻ (vnđ/vé) với giá</Checkbox>
-                <Input
-                  className={`${styles.input} ${styles.inputLongOne}`}
-                  placeholder="Giá vé"
-                />
+                <Checkbox
+                  checked={priceCheck}
+                  onChange={() => setPriceCheck(!priceCheck)}>
+                  Vé lẻ (vnđ/vé) với giá
+                </Checkbox>
+                <Form.Item
+                  name="price"
+                  key="price"
+                  initialValue={props.valueItem.price}>
+                  <Input
+                    disabled={!priceCheck}
+                    className={`${styles.input} ${styles.inputLongOne}`}
+                    placeholder="Giá vé"
+                  />
+                </Form.Item>
                 <div>/vé</div>
               </div>
             </Form.Item>
-            <Form.Item name="comboPrice">
+            <Form.Item>
               <div className={styles.priceWrapper}>
-                <Checkbox>Combo vé với giá</Checkbox>
-                <Input
-                  className={`${styles.input} ${styles.inputLongOne}`}
-                  placeholder="Giá vé"
-                />
+                <Checkbox
+                  checked={comboPriceCheck}
+                  onChange={() => setComboPriceCheck(!comboPriceCheck)}>
+                  Combo vé với giá
+                </Checkbox>
+                <Form.Item name="comboPrice" key="comboPrice">
+                  <Input
+                    disabled={!comboPriceCheck}
+                    className={`${styles.input} ${styles.inputLongOne}`}
+                    placeholder="Giá vé"
+                  />
+                </Form.Item>
                 <div> / </div>
-                <Input
-                  className={`${styles.input} ${styles.inputShortOne}`}
-                  placeholder="vé"
-                />
+                <Form.Item key="comboPriceAmount" name="comboPriceAmount">
+                  <Input
+                    disabled={!comboPriceCheck}
+                    className={`${styles.input} ${styles.inputShortOne}`}
+                    placeholder="vé"
+                  />
+                </Form.Item>
                 <div>vé</div>
               </div>
             </Form.Item>

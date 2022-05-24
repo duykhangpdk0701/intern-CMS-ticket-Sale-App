@@ -1,3 +1,7 @@
+.form {
+  width: 100%;
+}
+
 .radioWrapper {
   display: flex;
   flex-direction: column;
@@ -6,4 +10,10 @@
 
 .buttonSubmit {
   padding: 0 63px;
+}
+
+.formItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: left;
 }

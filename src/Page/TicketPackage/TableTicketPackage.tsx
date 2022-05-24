@@ -6,6 +6,7 @@ import { formatComboPrice, formatMoney } from "../../helper/formatPrice";
 import { defaultState } from "../../State/Reducers/TicketPackagesReducer";
 import styles from "./TableTicketPackage.module.scss";
 import ModalUpdateTicketPackage from "./ModalUpdateTicketPackage";
+import { TicketPackageTypes } from "../../State/ActionTypes/TicketPackageTypes";
 
 type TableTicketPackageType = {
   ticketPackagesState: defaultState;
@@ -15,11 +16,11 @@ const { Column } = Table;
 
 const TableTicketPackage = (props: TableTicketPackageType) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [id, setId] = useState("");
+  const [invoiceTicket, setInvoiceTicket] = useState<TicketPackageTypes>();
 
   const handleOnClickEdit =
     (value: any) => (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-      setId(value.id);
+      setInvoiceTicket(value);
       setModalVisible(true);
     };
 
@@ -54,6 +55,7 @@ const TableTicketPackage = (props: TableTicketPackageType) => {
           key="validDate"
           align="right"
           render={(text, record, index) => {
+            if (text === null) return <></>;
             const date = formatDate(text);
 
             return (
@@ -70,6 +72,7 @@ const TableTicketPackage = (props: TableTicketPackageType) => {
           dataIndex="expiryDate"
           key="expiryDate"
           render={(text, record, index) => {
+            if (text === null) return <></>;
             const date = formatDate(text);
 
             return (
@@ -85,11 +88,14 @@ const TableTicketPackage = (props: TableTicketPackageType) => {
           dataIndex="price"
           key="price"
           align="right"
-          render={(text, record, index) => (
-            <Space>
-              <span>{formatMoney(text)} VNĐ</span>
-            </Space>
-          )}
+          render={(text, record, index) => {
+            if (text === null) return <></>;
+            return (
+              <Space>
+                <span>{formatMoney(text)} VNĐ</span>
+              </Space>
+            );
+          }}
         />
         <Column
           title="Giá Combo(VNĐ/Combo)"
@@ -123,11 +129,13 @@ const TableTicketPackage = (props: TableTicketPackageType) => {
           )}
         />
       </Table>
-      <ModalUpdateTicketPackage
-        id={id}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+      {invoiceTicket && (
+        <ModalUpdateTicketPackage
+          valueItem={invoiceTicket}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      )}
     </>
   );
 };

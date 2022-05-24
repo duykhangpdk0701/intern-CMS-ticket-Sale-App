@@ -3,6 +3,7 @@ import {
   InvoiceTicketTypes,
   INVOICE_TICKET_FAIL,
   INVOICE_TICKET_GET_SUCCESS,
+  INVOICE_TICKET_GET_SUCCESS_WITH_FILTER,
   INVOICE_TICKET_LOADING,
 } from "../ActionTypes/InvoiceTicketTypes";
 
@@ -35,6 +36,12 @@ const InvoiceTicketReducer = (
       };
 
     case INVOICE_TICKET_GET_SUCCESS:
+      return {
+        loading: false,
+        current: action.payload,
+      };
+
+    case INVOICE_TICKET_GET_SUCCESS_WITH_FILTER:
       return {
         loading: false,
         current: action.payload,

@@ -23,11 +23,9 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
 
   const onFinish = async (value: TicketFilterTypes) => {
     try {
-      console.log(value);
       dispatch(getTicketsWithFilter(value));
       props.setModalVisible(false);
     } catch (error) {
-      console.log(error);
       props.setModalVisible(false);
     }
   };

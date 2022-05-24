@@ -1,9 +1,12 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { Dispatch } from "redux";
 import { db } from "../../Config/FirebaseConfig";
+
 import {
+  AddTicketPackageTypes,
   TicketPackageDispatchTypes,
   TicketPackageTypes,
+  TICKET_PACKAGE_ADD_SUCCESS,
   TICKET_PACKAGE_FAIL,
   TICKET_PACKAGE_GET_SUCCESS,
   TICKET_PACKAGE_LOADING,
@@ -40,6 +43,31 @@ export const getTicketPackage =
       dispatch({
         type: TICKET_PACKAGE_GET_SUCCESS,
         payload: ticketPackage,
+      });
+    } catch (error) {
+      dispatch({
+        type: TICKET_PACKAGE_FAIL,
+        error: error as Error,
+      });
+    }
+  };
+
+export const addTicketPackage =
+  (addTicket: AddTicketPackageTypes) =>
+  async (dispatch: Dispatch<TicketPackageDispatchTypes>) => {
+    try {
+      dispatch({
+        type: TICKET_PACKAGE_LOADING,
+      });
+      const newTicketPackage = doc(collection(db, "ticketPackages"));
+
+      await setDoc(newTicketPackage, addTicket);
+      dispatch({
+        type: TICKET_PACKAGE_ADD_SUCCESS,
+        payload: {
+          id: newTicketPackage.id,
+          ...addTicket,
+        },
       });
     } catch (error) {
       dispatch({
