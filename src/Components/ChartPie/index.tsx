@@ -1,6 +1,5 @@
-import { Typography } from "antd";
 import React from "react";
-import { PieChart, Pie, Legend, Cell, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 type ChartPieType = {
   chartPieData: {

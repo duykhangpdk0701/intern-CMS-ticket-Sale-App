@@ -1,6 +1,5 @@
 import { DatePicker, Typography } from "antd";
 import React from "react";
-import { Legend } from "recharts";
 import ChartLine from "../../Components/ChartLine";
 import ChartPie from "../../Components/ChartPie";
 import { chartLineData } from "../../DummyData/chartLineData";
@@ -17,6 +16,7 @@ const Home = () => {
       </div>
       <div className={styles.chartLineTitleContainer}>
         <Title level={5}>Doanh thu</Title>
+        <DatePicker picker="month" />
       </div>
       <div className={styles.chartLineContainer}>
         <ChartLine chartLineData={chartLineData} />

@@ -12,6 +12,8 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
+              "@control-border-radius": "8px",
+
               "@primary-color": primaryColor,
               "@layout-sider-background": primaryColor,
               "@menu-item-active-bg": primaryColor,

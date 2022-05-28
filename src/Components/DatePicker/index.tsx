@@ -4,6 +4,7 @@ import DatePicker, {
 import React from "react";
 import { DatePicker as DatePickerAnt } from "antd";
 import moment from "moment";
+import styles from "./DatePicker.module.scss";
 
 type DatePickerCustomType = {
   value?: DayValue;
@@ -16,10 +17,14 @@ const DatePickerCustom: React.FC<DatePickerCustomType> = ({
 }) => {
   return (
     <DatePicker
+      wrapperClassName={styles.calendar}
+      calendarClassName={styles.calendar}
       value={value}
       onChange={onChange}
       renderInput={({ ref }) => (
         <DatePickerAnt
+          className={styles.input}
+          size="large"
           allowClear={false}
           format="DD/MM/YYYY"
           value={value ? moment(value).subtract("months", 1) : undefined}

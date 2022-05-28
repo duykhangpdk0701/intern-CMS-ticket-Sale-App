@@ -1,7 +1,6 @@
 import {
   Button,
   Checkbox,
-  DatePicker,
   Form,
   Input,
   Modal,
@@ -10,6 +9,7 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import DatePickerCustom from "../../Components/DatePicker";
 import { TicketPackageTypes } from "../../State/ActionTypes/TicketPackageTypes";
 import styles from "./ModalUpdateTicketPackage.module.scss";
 
@@ -20,19 +20,24 @@ type ModalUpdateTicketPackageType = {
 };
 
 const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
+  const { valueItem } = props;
+  const [form] = Form.useForm();
   const [priceCheck, setPriceCheck] = useState(false);
   const [comboPriceCheck, setComboPriceCheck] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const valueItem = props.valueItem;
+    form.setFieldsValue(valueItem);
+  }, [form, valueItem]);
+
+  useEffect(() => {
     if (valueItem.price !== null) {
       setPriceCheck(true);
     }
     if (valueItem.comboPrice !== null) {
       setComboPriceCheck(true);
     }
-  }, [props.valueItem]);
+  }, [valueItem]);
 
   const onFinish = async (value: any) => {
     console.log(props.valueItem);
@@ -75,35 +80,40 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
           </Form.Item>
         </div>,
       ]}>
-      <Form onFinish={onFinish} id="updateTicket" layout="vertical">
-        <div>
-          <Form.Item
-            initialValue={props.valueItem.id}
-            label={<label>Mã sự kiện</label>}>
-            <Input />
+      <Form
+        form={form}
+        initialValues={props.valueItem}
+        onFinish={onFinish}
+        id="updateTicket"
+        layout="vertical">
+        <div className={styles.nameContainer}>
+          <Form.Item key="id" name="id" label={<label>Mã sự kiện</label>}>
+            <Input size="large" />
           </Form.Item>
-          <Form.Item
-            initialValue={props.valueItem.name}
-            label={<label>Tên sự kiện</label>}>
-            <Input />
+          <Form.Item key="name" name="name" label={<label>Tên sự kiện</label>}>
+            <Input size="large" />
           </Form.Item>
         </div>
-        <div>
+        <div className={styles.dateContainer}>
           <Form.Item label={<label className="label">Ngày áp dụng</label>}>
-            <Form.Item key="validDay" name="validDay">
-              <DatePicker />
-            </Form.Item>
-            <Form.Item key="validTime" name="validTime">
-              <TimePicker />
-            </Form.Item>
+            <div className={styles.dateWrapper}>
+              <Form.Item key="validDay" name="validDay">
+                <DatePickerCustom />
+              </Form.Item>
+              <Form.Item key="validTime" name="validTime">
+                <TimePicker size="large" />
+              </Form.Item>
+            </div>
           </Form.Item>
           <Form.Item label={<label className="label">Ngày hết hạn</label>}>
-            <Form.Item key="expiryDay" name="expiryDay">
-              <DatePicker />
-            </Form.Item>
-            <Form.Item key="expiryTime" name="expiryTime">
-              <TimePicker />
-            </Form.Item>
+            <div className={styles.dateWrapper}>
+              <Form.Item key="expiryDay" name="expiryDay">
+                <DatePickerCustom />
+              </Form.Item>
+              <Form.Item key="expiryTime" name="expiryTime">
+                <TimePicker size="large" />
+              </Form.Item>
+            </div>
           </Form.Item>
         </div>
 
@@ -116,11 +126,9 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
                   onChange={() => setPriceCheck(!priceCheck)}>
                   Vé lẻ (vnđ/vé) với giá
                 </Checkbox>
-                <Form.Item
-                  name="price"
-                  key="price"
-                  initialValue={props.valueItem.price}>
+                <Form.Item name="price" key="price">
                   <Input
+                    size="large"
                     disabled={!priceCheck}
                     className={`${styles.input} ${styles.inputLongOne}`}
                     placeholder="Giá vé"
@@ -138,6 +146,7 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
                 </Checkbox>
                 <Form.Item name="comboPrice" key="comboPrice">
                   <Input
+                    size="large"
                     disabled={!comboPriceCheck}
                     className={`${styles.input} ${styles.inputLongOne}`}
                     placeholder="Giá vé"
@@ -146,6 +155,7 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
                 <div> / </div>
                 <Form.Item key="comboPriceAmount" name="comboPriceAmount">
                   <Input
+                    size="large"
                     disabled={!comboPriceCheck}
                     className={`${styles.input} ${styles.inputShortOne}`}
                     placeholder="vé"
