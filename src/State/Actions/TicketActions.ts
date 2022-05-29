@@ -1,8 +1,11 @@
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   query,
   QueryConstraint,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { Dispatch } from "redux";
@@ -11,10 +14,12 @@ import {
   TicketDispatchTypes,
   TicketFilterTypes,
   TicketTypes,
+  TicketUpdateType,
   TICKET_FAIL,
   TICKET_GET_SUCCESS,
   TICKET_GET_WITH_FILTER_SUCCESS,
   TICKET_LOADING,
+  TICKET_UPDATE_DATE_SUCCESS,
 } from "../ActionTypes/TicketTypes";
 
 export const getTickets =
@@ -113,6 +118,38 @@ export const getTicketsWithFilter =
       dispatch({
         type: TICKET_GET_WITH_FILTER_SUCCESS,
         payload: tickets,
+      });
+    } catch (error) {
+      dispatch({
+        type: TICKET_FAIL,
+        error: error as Error,
+      });
+    }
+  };
+
+export const updateTicketDate =
+  (updateDateTicket: TicketUpdateType) =>
+  async (dispatch: Dispatch<TicketDispatchTypes>) => {
+    try {
+      dispatch({
+        type: TICKET_LOADING,
+      });
+
+      const ticketRef = doc(db, "ticket", updateDateTicket.id);
+
+      const updateTicket = await updateDoc(ticketRef, {
+        dateUse: new Date(updateDateTicket.dateUse),
+      });
+
+      const getTicketById = await getDoc(ticketRef);
+      const ticket = {
+        ...getTicketById.data(),
+        id: getTicketById.id,
+      } as TicketTypes;
+
+      dispatch({
+        type: TICKET_UPDATE_DATE_SUCCESS,
+        payload: ticket,
       });
     } catch (error) {
       dispatch({

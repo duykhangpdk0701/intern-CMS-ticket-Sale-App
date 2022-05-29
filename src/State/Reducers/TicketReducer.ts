@@ -5,16 +5,18 @@ import {
   TICKET_GET_SUCCESS,
   TICKET_GET_WITH_FILTER_SUCCESS,
   TICKET_LOADING,
+  TICKET_UPDATE_DATE_SUCCESS,
 } from "../ActionTypes/TicketTypes";
 
 export interface defaultState {
   loading: boolean;
   error?: Error;
-  current?: TicketTypes[];
+  current: TicketTypes[];
 }
 
 const initialState: defaultState = {
   loading: false,
+  current: [],
 };
 
 const TicketReducer = (
@@ -45,6 +47,18 @@ const TicketReducer = (
       return {
         loading: false,
         current: action.payload,
+      };
+
+    case TICKET_UPDATE_DATE_SUCCESS:
+      return {
+        loading: false,
+        current: state.current.map((value) => {
+          if (value.id === action.payload.id) {
+            return action.payload;
+          }
+
+          return value;
+        }),
       };
 
     default:

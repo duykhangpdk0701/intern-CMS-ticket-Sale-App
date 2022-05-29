@@ -16,6 +16,5 @@ export const combineDayAndTime = (day: DayType, time: moment.Moment) => {
   }
 
   const timeFormat = moment(temp).format();
-  console.log(temp);
   return new Date(timeFormat);
 };

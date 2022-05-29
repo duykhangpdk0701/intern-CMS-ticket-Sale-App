@@ -1,8 +1,12 @@
 import { Button, Form, Modal, Typography } from "antd";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { TicketTypes } from "../../State/ActionTypes/TicketTypes";
 import styles from "./ModalManageTicket.module.scss";
 import DatePickerCustom from "../../Components/DatePicker";
+import { useDispatch } from "react-redux";
+import { updateTicketDate } from "../../State/Actions/TicketActions";
+import moment from "moment";
+import { formatCustomDate } from "../../helper/formatCustomDate";
 
 type ModalChangeDateManageTicketType = {
   valueItem: TicketTypes;
@@ -16,9 +20,41 @@ const ModalChangeDateManageTicket = (
   props: ModalChangeDateManageTicketType,
 ) => {
   const { valueItem, modalVisible, setModalVisible } = props;
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const currentDate = useMemo(
+    () => moment(valueItem.dateUse).toObject(),
+    [valueItem],
+  );
+  const initialValue = {
+    ...valueItem,
+    dateUse: formatCustomDate(valueItem.dateUse),
+  };
+
+  useEffect(() => {
+    console.log(valueItem);
+    form.setFieldsValue({
+      ...valueItem,
+      dateUse: formatCustomDate(valueItem.dateUse),
+    });
+  }, [valueItem, form]);
 
   const onFinish = async (value: any) => {
-    console.log(valueItem);
+    console.log(value);
+    try {
+      dispatch(
+        updateTicketDate({
+          id: valueItem.id,
+          dateUse: moment(value.dateUseUpdate)
+            .subtract("months", 1)
+            .format("YYYY/MM/DD"),
+        }),
+      );
+      setModalVisible(false);
+    } catch (error) {
+      console.log(error);
+      setModalVisible(false);
+    }
   };
 
   return (
@@ -57,7 +93,11 @@ const ModalChangeDateManageTicket = (
           </Form.Item>
         </div>,
       ]}>
-      <Form>
+      <Form
+        onFinish={onFinish}
+        id="updateTicket"
+        form={form}
+        initialValues={initialValue}>
         <Form.Item
           labelAlign="left"
           label={<Title level={5}>Số vé</Title>}
@@ -79,6 +119,7 @@ const ModalChangeDateManageTicket = (
           </Text>
         </Form.Item>
         <Form.Item
+          name="dateUse"
           labelAlign="left"
           label={<Title level={5}>Hạn sử dụng</Title>}
           className={styles.ticketValueContainer}>

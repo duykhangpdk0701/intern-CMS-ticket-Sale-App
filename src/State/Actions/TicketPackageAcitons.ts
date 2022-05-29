@@ -10,6 +10,7 @@ import {
   TICKET_PACKAGE_FAIL,
   TICKET_PACKAGE_GET_SUCCESS,
   TICKET_PACKAGE_LOADING,
+  UpdateTicketPackageTypes,
 } from "../ActionTypes/TicketPackageTypes";
 
 export const getTicketPackage =

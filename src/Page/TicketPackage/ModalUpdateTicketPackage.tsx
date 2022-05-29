@@ -27,17 +27,16 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    form.setFieldsValue(valueItem);
-  }, [form, valueItem]);
-
-  useEffect(() => {
+    setComboPriceCheck(false);
+    setPriceCheck(false);
     if (valueItem.price !== null) {
       setPriceCheck(true);
     }
     if (valueItem.comboPrice !== null) {
       setComboPriceCheck(true);
     }
-  }, [valueItem]);
+    form.setFieldsValue(valueItem);
+  }, [form, valueItem]);
 
   const onFinish = async (value: any) => {
     console.log(props.valueItem);
