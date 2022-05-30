@@ -16,8 +16,8 @@ export type TicketTypes = {
 };
 
 export type TicketFilterTypes = {
-  dateForm: Date;
-  dateTo: Date;
+  dateForm: string;
+  dateTo: string;
   status: string | boolean;
   checkIn: string[];
 };

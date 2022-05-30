@@ -1,4 +1,11 @@
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { Dispatch } from "redux";
 import { db } from "../../Config/FirebaseConfig";
 
@@ -10,6 +17,7 @@ import {
   TICKET_PACKAGE_FAIL,
   TICKET_PACKAGE_GET_SUCCESS,
   TICKET_PACKAGE_LOADING,
+  TICKET_PACKAGE_UPDATE_SUCCESS,
   UpdateTicketPackageTypes,
 } from "../ActionTypes/TicketPackageTypes";
 
@@ -69,6 +77,43 @@ export const addTicketPackage =
           id: newTicketPackage.id,
           ...addTicket,
         },
+      });
+    } catch (error) {
+      dispatch({
+        type: TICKET_PACKAGE_FAIL,
+        error: error as Error,
+      });
+    }
+  };
+
+export const updateTicketPackage =
+  (updateTicket: UpdateTicketPackageTypes) =>
+  async (dispatch: Dispatch<TicketPackageDispatchTypes>) => {
+    try {
+      dispatch({
+        type: TICKET_PACKAGE_LOADING,
+      });
+
+      const ticketPackageRef = doc(db, "ticketPackages", updateTicket.id);
+
+      const updateTicketSnapshot = await updateDoc(ticketPackageRef, {
+        name: updateTicket.name,
+        comboPrice: updateTicket.comboPrice,
+        price: updateTicket.price,
+        status: updateTicket.status,
+        validDate: updateTicket.validDate,
+        expiryDate: updateTicket,
+      });
+
+      const getTicketPackageById = await getDoc(ticketPackageRef);
+      const ticketPackage = {
+        ...getTicketPackageById.data(),
+        id: getTicketPackageById.id,
+      } as TicketPackageTypes;
+
+      dispatch({
+        type: TICKET_PACKAGE_UPDATE_SUCCESS,
+        payload: ticketPackage,
       });
     } catch (error) {
       dispatch({

@@ -6,6 +6,7 @@ import {
   TICKET_PACKAGE_FAIL,
   TICKET_PACKAGE_GET_SUCCESS,
   TICKET_PACKAGE_LOADING,
+  TICKET_PACKAGE_UPDATE_SUCCESS,
 } from "../ActionTypes/TicketPackageTypes";
 
 export interface defaultState {
@@ -60,6 +61,17 @@ const TicketPackageReducer = (
             },
           },
         ],
+      };
+
+    case TICKET_PACKAGE_UPDATE_SUCCESS:
+      return {
+        loading: false,
+        current: state.current.map((value) => {
+          if (value.id === action.payload.id) {
+            return action.payload;
+          }
+          return value;
+        }),
       };
 
     default:

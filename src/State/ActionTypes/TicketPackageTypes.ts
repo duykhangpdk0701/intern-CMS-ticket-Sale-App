@@ -24,8 +24,9 @@ export type AddTicketPackageTypes = {
 };
 
 export type UpdateTicketPackageTypes = {
+  id: string;
   name: string;
-  nameEvent: string;
+  nameEvent: string | null;
   validDate: Date;
   expiryDate: Date;
   comboPrice: string;

@@ -10,7 +10,6 @@ const InvoiceTicketForm = () => {
   const dispatch = useDispatch();
 
   const onFinish = async (value: FilterInvoiceTicketType) => {
-    console.log(value);
     try {
       dispatch(getInvoiceTicketsWithFilter(value));
     } catch (error) {

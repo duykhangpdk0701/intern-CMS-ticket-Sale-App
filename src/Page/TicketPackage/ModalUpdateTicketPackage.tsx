@@ -7,7 +7,7 @@ import {
   TimePicker,
   Typography,
 } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import DatePickerCustom from "../../Components/DatePicker";
 import { TicketPackageTypes } from "../../State/ActionTypes/TicketPackageTypes";
@@ -25,6 +25,15 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
   const [priceCheck, setPriceCheck] = useState(false);
   const [comboPriceCheck, setComboPriceCheck] = useState(false);
   const dispatch = useDispatch();
+  const initialValue = useMemo(() => {
+    const comboPrice =
+      valueItem.comboPrice !== null ? valueItem.comboPrice.split("/") : null;
+    return {
+      ...valueItem,
+      comboPrice: comboPrice !== null ? comboPrice[0] : null,
+      comboPriceAmount: comboPrice !== null ? comboPrice[1] : null,
+    };
+  }, [valueItem]);
 
   useEffect(() => {
     setComboPriceCheck(false);
@@ -35,11 +44,11 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
     if (valueItem.comboPrice !== null) {
       setComboPriceCheck(true);
     }
-    form.setFieldsValue(valueItem);
+    form.setFieldsValue(initialValue);
   }, [form, valueItem]);
 
   const onFinish = async (value: any) => {
-    console.log(props.valueItem);
+    console.log(value);
   };
 
   return (
@@ -81,7 +90,7 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
       ]}>
       <Form
         form={form}
-        initialValues={props.valueItem}
+        initialValues={initialValue}
         onFinish={onFinish}
         id="updateTicket"
         layout="vertical">

@@ -1,17 +1,11 @@
-import {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Modal,
-  Radio,
-  Typography,
-} from "antd";
+import { Button, Checkbox, Form, Modal, Radio, Typography } from "antd";
 import React from "react";
 import { TicketFilterTypes } from "../../State/ActionTypes/TicketTypes";
 import { getTicketsWithFilter } from "../../State/Actions/TicketActions";
 import styles from "./ModalManageTicket.module.scss";
 import { useDispatch } from "react-redux";
+import moment from "moment";
+import DatePickerCustom from "../../Components/DatePicker";
 
 type ModalManageTicketType = {
   modalVisible: boolean;
@@ -23,7 +17,14 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
 
   const onFinish = async (value: TicketFilterTypes) => {
     try {
-      dispatch(getTicketsWithFilter(value));
+      console.log(moment(value.dateForm).format());
+      dispatch(
+        getTicketsWithFilter({
+          ...value,
+          dateForm: moment(value.dateForm).format(),
+          dateTo: moment(value.dateTo).format(),
+        }),
+      );
       props.setModalVisible(false);
     } catch (error) {
       props.setModalVisible(false);
@@ -65,12 +66,12 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
           <Form.Item
             name="dateForm"
             label={<label className="label">Từ ngày</label>}>
-            <DatePicker />
+            <DatePickerCustom />
           </Form.Item>
           <Form.Item
             name="dateTo"
             label={<label className="label">Đến ngày</label>}>
-            <DatePicker />
+            <DatePickerCustom />
           </Form.Item>
         </div>
 
