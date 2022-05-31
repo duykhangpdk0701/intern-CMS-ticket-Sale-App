@@ -7,10 +7,16 @@ export const formatCustomDate = (date: any) => {
       .split("/");
 
     return {
-      year: dateFormat[0],
-      month: dateFormat[1],
-      day: dateFormat[3],
+      year: parseInt(dateFormat[0]),
+      month: parseInt(dateFormat[1]),
+      day: parseInt(dateFormat[2]),
     };
   }
   return null;
+};
+
+export const formatFromObjectDateToStringDate = (date: any) => {
+  if (date === undefined) return undefined;
+  const newDate = { ...date, month: date.month - 1 };
+  return moment(newDate).format();
 };

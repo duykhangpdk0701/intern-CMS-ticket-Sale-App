@@ -96,7 +96,7 @@ export const updateTicketPackage =
 
       const ticketPackageRef = doc(db, "ticketPackages", updateTicket.id);
 
-      const updateTicketSnapshot = await updateDoc(ticketPackageRef, {
+      await updateDoc(ticketPackageRef, {
         name: updateTicket.name,
         comboPrice: updateTicket.comboPrice,
         price: updateTicket.price,

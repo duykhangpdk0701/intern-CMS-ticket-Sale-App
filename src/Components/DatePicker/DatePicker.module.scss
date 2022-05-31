@@ -1,8 +1,9 @@
 .calendar {
-  z-index: 2000 !important;
-  display: flex;
+  box-shadow: 4px 4px 45px 0px rgba(109, 46, 0, 0.35);
+  border-radius: 20px;
 }
 
-.input {
-  z-index: 0;
+.radioGroup {
+  display: flex;
+  justify-content: space-between;
 }

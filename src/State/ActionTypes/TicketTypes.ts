@@ -16,15 +16,15 @@ export type TicketTypes = {
 };
 
 export type TicketFilterTypes = {
-  dateForm: string;
-  dateTo: string;
+  dateForm: string | undefined;
+  dateTo: string | undefined;
   status: string | boolean;
   checkIn: string[];
 };
 
 export type TicketUpdateType = {
   id: string;
-  dateUse: string;
+  dateUse: string | undefined;
 };
 
 export interface TicketLoading {

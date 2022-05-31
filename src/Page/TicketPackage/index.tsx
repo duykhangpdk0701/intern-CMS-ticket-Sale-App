@@ -31,7 +31,10 @@ const TicketPackage = () => {
       </div>
       <div className={styles.feature}>
         <div>
-          <SearchInput />
+          <SearchInput
+            className={styles.searchInput}
+            placeholder="Tìm bằng số vé"
+          />
         </div>
 
         <div>

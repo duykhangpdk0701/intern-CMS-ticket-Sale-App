@@ -33,3 +33,17 @@
     width: 0 !important;
   }
 }
+
+.statusTrue {
+  color: $statusTrue;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.statusFalse {
+  color: $statusFalse;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 500;
+}

@@ -1,12 +1,14 @@
 import { Button, Form, Modal, Typography } from "antd";
 import React, { useEffect, useMemo } from "react";
 import { TicketTypes } from "../../State/ActionTypes/TicketTypes";
-import styles from "./ModalManageTicket.module.scss";
+import styles from "./ModalChangeDateManageTicket.module.scss";
 import DatePickerCustom from "../../Components/DatePicker";
 import { useDispatch } from "react-redux";
 import { updateTicketDate } from "../../State/Actions/TicketActions";
-import moment from "moment";
-import { formatCustomDate } from "../../helper/formatCustomDate";
+import {
+  formatCustomDate,
+  formatFromObjectDateToStringDate,
+} from "../../helper/formatCustomDate";
 
 type ModalChangeDateManageTicketType = {
   valueItem: TicketTypes;
@@ -22,32 +24,24 @@ const ModalChangeDateManageTicket = (
   const { valueItem, modalVisible, setModalVisible } = props;
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const currentDate = useMemo(
-    () => moment(valueItem.dateUse).toObject(),
-    [valueItem],
-  );
-  const initialValue = {
-    ...valueItem,
-    dateUse: formatCustomDate(valueItem.dateUse),
-  };
-
-  useEffect(() => {
-    console.log(valueItem);
-    form.setFieldsValue({
+  const initialValue = useMemo(
+    () => ({
       ...valueItem,
       dateUse: formatCustomDate(valueItem.dateUse),
-    });
-  }, [valueItem, form]);
+    }),
+    [valueItem],
+  );
+
+  useEffect(() => {
+    form.setFieldsValue(initialValue);
+  }, [form, initialValue]);
 
   const onFinish = async (value: any) => {
-    console.log(value);
     try {
       dispatch(
         updateTicketDate({
           id: valueItem.id,
-          dateUse: moment(value.dateUseUpdate)
-            .subtract("months", 1)
-            .format("YYYY/MM/DD"),
+          dateUse: formatFromObjectDateToStringDate(value.dateUse),
         }),
       );
       setModalVisible(false);
@@ -70,7 +64,7 @@ const ModalChangeDateManageTicket = (
       }
       footer={[
         <div className={styles.modalButtonContainer}>
-          <Form.Item>
+          <Form.Item key="buttonAction">
             <Button
               style={{ marginRight: 24 }}
               size="large"
@@ -99,18 +93,21 @@ const ModalChangeDateManageTicket = (
         form={form}
         initialValues={initialValue}>
         <Form.Item
+          key="id"
           labelAlign="left"
           label={<Title level={5}>Số vé</Title>}
           className={styles.ticketValueContainer}>
           <Text className={styles.textValue}>{valueItem.id}</Text>
         </Form.Item>
         <Form.Item
+          key="event"
           labelAlign="left"
           label={<Title level={5}>Số vé</Title>}
           className={styles.ticketValueContainer}>
           <Text className={styles.textValue}>Vé cổng - Gói sự kiện</Text>
         </Form.Item>
         <Form.Item
+          key="name"
           labelAlign="left"
           label={<Title level={5}>Tên sự kiện</Title>}
           className={styles.ticketValueContainer}>
@@ -119,11 +116,12 @@ const ModalChangeDateManageTicket = (
           </Text>
         </Form.Item>
         <Form.Item
+          key="dateUse"
           name="dateUse"
           labelAlign="left"
           label={<Title level={5}>Hạn sử dụng</Title>}
           className={styles.ticketValueContainer}>
-          <DatePickerCustom />
+          <DatePickerCustom hasOption={false} />
         </Form.Item>
       </Form>
     </Modal>

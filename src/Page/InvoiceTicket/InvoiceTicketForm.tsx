@@ -1,5 +1,6 @@
+import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
 import { Button, Form, Radio } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import DatePickerCustom from "../../Components/DatePicker";
 import { getInvoiceTicketsWithFilter } from "../../State/Actions/InvoiceTicketActions";
@@ -9,8 +10,14 @@ import styles from "./InvoiceTicketForm.module.scss";
 const InvoiceTicketForm = () => {
   const dispatch = useDispatch();
 
+  const [dayRange, setDayRange] = useState<DayRange>({
+    from: null,
+    to: null,
+  });
+
   const onFinish = async (value: FilterInvoiceTicketType) => {
     try {
+      console.log(value);
       dispatch(getInvoiceTicketsWithFilter(value));
     } catch (error) {
       console.log(error);
@@ -51,7 +58,11 @@ const InvoiceTicketForm = () => {
         key="dateFrom"
         name="dateFrom"
         label={<label className="label">Từ ngày</label>}>
-        <DatePickerCustom />
+        <DatePickerCustom
+          type="from"
+          dayRange={dayRange}
+          setDayRange={setDayRange}
+        />
       </Form.Item>
 
       <Form.Item
@@ -60,7 +71,11 @@ const InvoiceTicketForm = () => {
         key="dateEnd"
         name="dateEnd"
         label={<label className="label">Đến ngày</label>}>
-        <DatePickerCustom />
+        <DatePickerCustom
+          type="to"
+          dayRange={dayRange}
+          setDayRange={setDayRange}
+        />
       </Form.Item>
 
       <Button

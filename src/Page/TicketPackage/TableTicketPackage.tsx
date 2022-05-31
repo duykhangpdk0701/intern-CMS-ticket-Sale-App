@@ -7,6 +7,7 @@ import { defaultState } from "../../State/Reducers/TicketPackagesReducer";
 import styles from "./TableTicketPackage.module.scss";
 import ModalUpdateTicketPackage from "./ModalUpdateTicketPackage";
 import { TicketPackageTypes } from "../../State/ActionTypes/TicketPackageTypes";
+import Status from "../../Components/Status/Status";
 
 type TableTicketPackageType = {
   ticketPackagesState: defaultState;
@@ -115,7 +116,17 @@ const TableTicketPackage = (props: TableTicketPackageType) => {
             );
           }}
         />
-        <Column title="Tình Trạng" dataIndex="status" key="status" />
+        <Column
+          title="Tình Trạng"
+          dataIndex="status"
+          key="status"
+          render={(value, record, index) => {
+            if (value) {
+              return <Status color="primary" title="Đang áp dụng" />;
+            }
+            return <Status color="danger" title="Tắt" />;
+          }}
+        />
         <Column
           key="action"
           render={(text, record) => (

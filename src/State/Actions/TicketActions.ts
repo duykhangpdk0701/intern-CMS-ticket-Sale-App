@@ -71,20 +71,19 @@ export const getTicketsWithFilter =
 
       const queryFilter: QueryConstraint[] = [];
       //filter dateFrom
-
       if (
         ticketFilter.dateForm !== undefined &&
         ticketFilter.dateForm !== null
       ) {
         queryFilter.push(
-          where("dateTicketRelease", ">", new Date(ticketFilter.dateForm)),
+          where("dateTicketRelease", ">=", new Date(ticketFilter.dateForm)),
         );
       }
 
       //filter dateTo
       if (ticketFilter.dateTo !== undefined && ticketFilter.dateTo !== null) {
         queryFilter.push(
-          where("dateTicketRelease", "<", new Date(ticketFilter.dateTo)),
+          where("dateTicketRelease", "<=", new Date(ticketFilter.dateTo)),
         );
       }
 
@@ -137,9 +136,11 @@ export const updateTicketDate =
 
       const ticketRef = doc(db, "ticket", updateDateTicket.id);
 
-      const updateTicket = await updateDoc(ticketRef, {
-        dateUse: new Date(updateDateTicket.dateUse),
-      });
+      if (updateDateTicket.dateUse !== undefined) {
+        await updateDoc(ticketRef, {
+          dateUse: new Date(updateDateTicket.dateUse),
+        });
+      }
 
       const getTicketById = await getDoc(ticketRef);
       const ticket = {

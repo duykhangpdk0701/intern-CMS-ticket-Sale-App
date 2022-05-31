@@ -1,0 +1,28 @@
+.modal {
+  border-radius: 16px;
+}
+
+.modalTitle {
+  text-align: center;
+  font-weight: 700 !important;
+}
+
+.modalButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalButton {
+  padding: 0 63px;
+}
+
+.ticketValueContainer {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
+.textValue {
+  font-weight: 500;
+  font-size: 16px;
+}

@@ -20,7 +20,7 @@ const Header = () => {
       </div>
       <div className={styles.featureContainer}>
         <div className={styles.searchContainer}>
-          <SearchInput />
+          <SearchInput placeholder="Search" className={styles.searchInput} />
         </div>
         <div className={styles.profileContainer}>
           <Icon component={MailIcon} className={styles.icon} />

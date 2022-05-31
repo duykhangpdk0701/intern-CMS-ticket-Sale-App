@@ -1,6 +1,7 @@
 import { Button, Space, Table } from "antd";
 import React, { useState } from "react";
 import EllipsisIcon from "../../Assets/Icon/EllipsisIcon";
+import Status from "../../Components/Status/Status";
 import { formatDate } from "../../helper/formatDate";
 import { TicketTypes } from "../../State/ActionTypes/TicketTypes";
 import { defaultState } from "../../State/Reducers/TicketReducer";
@@ -40,7 +41,7 @@ const TableManageTicket = (props: TableManageTicketType) => {
           dataIndex="stt"
           key="stt"
           render={(value, record, index) => (
-            <Space>
+            <Space key={index}>
               <span>{index + 1}</span>
             </Space>
           )}
@@ -57,26 +58,21 @@ const TableManageTicket = (props: TableManageTicketType) => {
           title="Tình trạng sử dụng"
           dataIndex="statusUsage"
           key="statusUsage"
-        />
-
-        <Column
-          title="Ngày sử dụng"
-          dataIndex="dateTicketRelease"
-          key="dateTicketRelease"
           render={(value, record, index) => {
-            const date = formatDate(value);
+            if (value === 1) {
+              return (
+                <Status color="primary" title="Chưa sử dụng" key={index} />
+              );
+            } else if (value === 2) {
+              return <Status color="normal" title="Đã sử dụng" key={index} />;
+            }
 
-            return (
-              <>
-                <div>{date.date}</div>
-                <div>{date.time}</div>
-              </>
-            );
+            return <Status color="danger" title="Hết hạn" key={index} />;
           }}
         />
 
         <Column
-          title="Ngày xuất vé"
+          title="Ngày sử dụng"
           dataIndex="dateUse"
           key="dateUse"
           render={(value, record, index) => {
@@ -84,8 +80,22 @@ const TableManageTicket = (props: TableManageTicketType) => {
 
             return (
               <>
-                <div>{date.date}</div>
-                <div>{date.time}</div>
+                <div key={index}>{date.date}</div>
+              </>
+            );
+          }}
+        />
+
+        <Column
+          title="Ngày xuất vé"
+          dataIndex="dateTicketRelease"
+          key="dateTicketRelease"
+          render={(value, record, index) => {
+            const date = formatDate(value);
+
+            return (
+              <>
+                <div key={index}>{date.date}</div>
               </>
             );
           }}
@@ -98,13 +108,13 @@ const TableManageTicket = (props: TableManageTicketType) => {
           render={(value, record, index) => {
             if (value === null) {
               return (
-                <Space>
+                <Space key={index}>
                   <span>_</span>
                 </Space>
               );
             }
             return (
-              <Space>
+              <Space key={index}>
                 <span>{value}</span>
               </Space>
             );
@@ -117,7 +127,7 @@ const TableManageTicket = (props: TableManageTicketType) => {
             if (props.ticketsState.current !== undefined) {
               if (props.ticketsState.current[index].statusUsage === 1) {
                 return (
-                  <Space>
+                  <Space key={index}>
                     <Button
                       onClick={handleOnClickButtonMore(record)}
                       type="text">

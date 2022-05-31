@@ -5,7 +5,7 @@ import SearchInput from "../../Components/SearchInput";
 import { getTickets } from "../../State/Actions/TicketActions";
 import { RootStore } from "../../State/Store";
 import styles from "./ManageTicket.module.scss";
-import ModalManageTicket from "./ModalManageTicket";
+import ModalFilterManageTicket from "./ModalFilterManageTicket";
 import TableManageTicket from "./TableManageTicket";
 
 const { Title } = Typography;
@@ -30,7 +30,10 @@ const ManageTicket = () => {
 
       <div className={styles.feature}>
         <div>
-          <SearchInput />
+          <SearchInput
+            className={styles.searchInput}
+            placeholder="Tìm bằng số vé"
+          />
         </div>
 
         <div>
@@ -42,7 +45,7 @@ const ManageTicket = () => {
             onClick={() => setModalVisible(true)}>
             Lọc vé
           </Button>
-          <ModalManageTicket
+          <ModalFilterManageTicket
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
           />

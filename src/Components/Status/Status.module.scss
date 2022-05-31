@@ -1,13 +1,31 @@
+.tagWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .tagContainer {
   padding: 8px 12px;
   border: 1px solid black;
   border-radius: 4px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 
   span {
     font-size: 12px;
+    line-height: 14px;
     font-weight: bold;
   }
 }
 
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 25px;
+  margin-right: 8px;
+}
+
 .icon {
+  font-size: 8px;
 }

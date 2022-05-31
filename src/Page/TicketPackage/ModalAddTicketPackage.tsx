@@ -17,6 +17,7 @@ import { AddTicketPackageTypes } from "../../State/ActionTypes/TicketPackageType
 import { combineDayAndTime } from "../../helper/combineDayAndTime";
 import { useDispatch } from "react-redux";
 import { addTicketPackage } from "../../State/Actions/TicketPackageAcitons";
+import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
 
 type ModalAddTicketPackageType = {
   modalVisible: boolean;
@@ -29,6 +30,11 @@ const ModalAddTicketPackage = (props: ModalAddTicketPackageType) => {
   const [priceCheck, setPriceCheck] = useState(false);
   const [comboPriceCheck, setComboPriceCheck] = useState(false);
   const dispatch = useDispatch();
+
+  const [dayRange, setDayRange] = useState<DayRange>({
+    from: null,
+    to: null,
+  });
 
   const onFinish = async (value: any) => {
     try {
@@ -99,7 +105,11 @@ const ModalAddTicketPackage = (props: ModalAddTicketPackageType) => {
         <div>
           <Form.Item label={<label className="label">Ngày áp dụng</label>}>
             <Form.Item key="validDay" name="validDay">
-              <DatePickerCustom />
+              <DatePickerCustom
+                type="from"
+                dayRange={dayRange}
+                setDayRange={setDayRange}
+              />
             </Form.Item>
             <Form.Item key="validTime" name="validTime">
               <TimePicker />
@@ -107,7 +117,11 @@ const ModalAddTicketPackage = (props: ModalAddTicketPackageType) => {
           </Form.Item>
           <Form.Item label={<label className="label">Ngày hết hạn</label>}>
             <Form.Item key="expiryDay" name="expiryDay">
-              <DatePickerCustom />
+              <DatePickerCustom
+                type="to"
+                dayRange={dayRange}
+                setDayRange={setDayRange}
+              />
             </Form.Item>
             <Form.Item key="expiryTime" name="expiryTime">
               <TimePicker />

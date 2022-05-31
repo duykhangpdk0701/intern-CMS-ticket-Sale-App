@@ -1,32 +1,38 @@
 import { Button, Checkbox, Form, Modal, Radio, Typography } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { TicketFilterTypes } from "../../State/ActionTypes/TicketTypes";
 import { getTicketsWithFilter } from "../../State/Actions/TicketActions";
-import styles from "./ModalManageTicket.module.scss";
+import styles from "./ModalFilterManageTicket.module.scss";
 import { useDispatch } from "react-redux";
-import moment from "moment";
 import DatePickerCustom from "../../Components/DatePicker";
+import { formatFromObjectDateToStringDate } from "../../helper/formatCustomDate";
+import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
 
 type ModalManageTicketType = {
   modalVisible: boolean;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ModalManageTicket = (props: ModalManageTicketType) => {
+const ModalFilterManageTicket = (props: ModalManageTicketType) => {
   const dispatch = useDispatch();
+
+  const [dayRange, setDayRange] = useState<DayRange>({
+    from: null,
+    to: null,
+  });
 
   const onFinish = async (value: TicketFilterTypes) => {
     try {
-      console.log(moment(value.dateForm).format());
       dispatch(
         getTicketsWithFilter({
           ...value,
-          dateForm: moment(value.dateForm).format(),
-          dateTo: moment(value.dateTo).format(),
+          dateForm: formatFromObjectDateToStringDate(value.dateForm),
+          dateTo: formatFromObjectDateToStringDate(value.dateTo),
         }),
       );
       props.setModalVisible(false);
     } catch (error) {
+      console.log(error);
       props.setModalVisible(false);
     }
   };
@@ -47,7 +53,7 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
       onCancel={() => props.setModalVisible(false)}
       footer={[
         <div className={styles.modalButtonContainer}>
-          <Form.Item>
+          <Form.Item key="buttonAction">
             <Button
               form="ticketFilter"
               htmlType="submit"
@@ -66,12 +72,20 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
           <Form.Item
             name="dateForm"
             label={<label className="label">Từ ngày</label>}>
-            <DatePickerCustom />
+            <DatePickerCustom
+              type="from"
+              dayRange={dayRange}
+              setDayRange={setDayRange}
+            />
           </Form.Item>
           <Form.Item
             name="dateTo"
             label={<label className="label">Đến ngày</label>}>
-            <DatePickerCustom />
+            <DatePickerCustom
+              type="to"
+              dayRange={dayRange}
+              setDayRange={setDayRange}
+            />
           </Form.Item>
         </div>
 
@@ -82,9 +96,9 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
             label={<label className="label">Tình trạng sử dụng</label>}>
             <Radio.Group className={styles.radioContainer}>
               <Radio value={"all"}>Tất cả</Radio>
-              <Radio value={1}>Đã sử dụng</Radio>
-              <Radio value={2}>Chưa sử dụng</Radio>
-              <Radio value={3}>Hết hạn</Radio>
+              <Radio value={2}>Đã sử dụng</Radio>
+              <Radio value={1}>Chưa sử dụng</Radio>
+              <Radio value={0}>Hết hạn</Radio>
             </Radio.Group>
           </Form.Item>
         </div>
@@ -115,4 +129,4 @@ const ModalManageTicket = (props: ModalManageTicketType) => {
   );
 };
 
-export default ModalManageTicket;
+export default ModalFilterManageTicket;

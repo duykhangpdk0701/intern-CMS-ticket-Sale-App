@@ -1,3 +1,4 @@
+import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
 import {
   Button,
   Checkbox,
@@ -25,6 +26,10 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
   const [priceCheck, setPriceCheck] = useState(false);
   const [comboPriceCheck, setComboPriceCheck] = useState(false);
   const dispatch = useDispatch();
+  const [dayRange, setDayRange] = useState<DayRange>({
+    from: null,
+    to: null,
+  });
   const initialValue = useMemo(() => {
     const comboPrice =
       valueItem.comboPrice !== null ? valueItem.comboPrice.split("/") : null;
@@ -45,7 +50,7 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
       setComboPriceCheck(true);
     }
     form.setFieldsValue(initialValue);
-  }, [form, valueItem]);
+  }, [form, valueItem, initialValue]);
 
   const onFinish = async (value: any) => {
     console.log(value);
@@ -106,7 +111,11 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
           <Form.Item label={<label className="label">Ngày áp dụng</label>}>
             <div className={styles.dateWrapper}>
               <Form.Item key="validDay" name="validDay">
-                <DatePickerCustom />
+                <DatePickerCustom
+                  type="from"
+                  dayRange={dayRange}
+                  setDayRange={setDayRange}
+                />
               </Form.Item>
               <Form.Item key="validTime" name="validTime">
                 <TimePicker size="large" />
@@ -116,7 +125,11 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
           <Form.Item label={<label className="label">Ngày hết hạn</label>}>
             <div className={styles.dateWrapper}>
               <Form.Item key="expiryDay" name="expiryDay">
-                <DatePickerCustom />
+                <DatePickerCustom
+                  type="to"
+                  dayRange={dayRange}
+                  setDayRange={setDayRange}
+                />
               </Form.Item>
               <Form.Item key="expiryTime" name="expiryTime">
                 <TimePicker size="large" />

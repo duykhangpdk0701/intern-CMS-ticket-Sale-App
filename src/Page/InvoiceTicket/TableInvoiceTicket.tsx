@@ -1,4 +1,4 @@
-import { Space, Table } from "antd";
+import { Space, Table, Typography } from "antd";
 import React from "react";
 import { formatDate } from "../../helper/formatDate";
 import { defaultState } from "../../State/Reducers/InvoiceTicketReducer";
@@ -9,6 +9,7 @@ type TableInvoiceTicketType = {
 };
 
 const { Column } = Table;
+const { Text } = Typography;
 
 const TableInvoiceTicket = (props: TableInvoiceTicketType) => {
   return (
@@ -80,12 +81,12 @@ const TableInvoiceTicket = (props: TableInvoiceTicketType) => {
           if (value === true)
             return (
               <Space>
-                <span>Đã đối soát</span>
+                <Text className={styles.statusTrue}>Đã đối soát</Text>
               </Space>
             );
           return (
             <Space>
-              <span>Chưa đói soát</span>
+              <Text className={styles.statusFalse}>Chưa đối soát</Text>
             </Space>
           );
         }}

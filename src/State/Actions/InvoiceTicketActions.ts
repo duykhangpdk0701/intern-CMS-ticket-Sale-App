@@ -66,14 +66,20 @@ export const getInvoiceTicketsWithFilter =
       });
 
       //date from
-      if (invoiceTickerFilter.dateFrom !== undefined) {
+      if (
+        invoiceTickerFilter.dateFrom !== undefined &&
+        invoiceTickerFilter.dateFrom !== null
+      ) {
         const dateFrom = moment(invoiceTickerFilter.dateFrom)
           .subtract("months", 1)
           .format();
         queryFilter.push(where("dateUse", ">", new Date(dateFrom as string)));
       }
       // date to
-      if (invoiceTickerFilter.dateEnd !== undefined) {
+      if (
+        invoiceTickerFilter.dateEnd !== undefined &&
+        invoiceTickerFilter.dateEnd !== null
+      ) {
         const dateTo = moment(invoiceTickerFilter.dateEnd)
           .subtract("months", 1)
           .format();
