@@ -76,6 +76,7 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
               type="from"
               dayRange={dayRange}
               setDayRange={setDayRange}
+              inputClassName={styles.datePickerInput}
             />
           </Form.Item>
           <Form.Item
@@ -85,12 +86,14 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
               type="to"
               dayRange={dayRange}
               setDayRange={setDayRange}
+              inputClassName={styles.datePickerInput}
             />
           </Form.Item>
         </div>
 
         <div>
           <Form.Item
+            className={styles.formItem}
             initialValue={"all"}
             name="status"
             label={<label className="label">Tình trạng sử dụng</label>}>
@@ -105,6 +108,7 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
 
         <div>
           <Form.Item
+            className={styles.formItem}
             initialValue={["all"]}
             name="checkIn"
             label={<label className="label">Cổng Check - in</label>}>

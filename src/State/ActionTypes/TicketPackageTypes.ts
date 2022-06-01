@@ -8,10 +8,12 @@ export type TicketPackageTypes = {
   id: string;
   comboPrice: string | null;
   name: string | null;
+  nameEvent: string | null;
   price: number | null;
   status: boolean | null;
   validDate: Date | null | any;
   expiryDate: Date | null | any;
+  eventCode: string | null;
 };
 
 export type AddTicketPackageTypes = {
@@ -21,6 +23,8 @@ export type AddTicketPackageTypes = {
   comboPrice: string | null;
   price: number | null;
   status: boolean;
+  nameEvent: string | null;
+  eventCode: string | null;
 };
 
 export type UpdateTicketPackageTypes = {
@@ -32,6 +36,7 @@ export type UpdateTicketPackageTypes = {
   comboPrice: string;
   price: number;
   status: boolean;
+  eventCode: string | null;
 };
 
 export interface TicketPackageLoading {

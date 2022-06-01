@@ -39,12 +39,14 @@ export const getTicketPackage =
         const id = value.id;
         ticketPackage.push({
           id: id,
+          nameEvent: temp.nameEvent,
           comboPrice: temp.comboPrice,
           name: temp.name,
           price: temp.price,
           status: temp.status,
           validDate: temp.validDate,
           expiryDate: temp.expiryDate,
+          eventCode: temp.eventCode,
         });
       });
 
@@ -96,14 +98,18 @@ export const updateTicketPackage =
 
       const ticketPackageRef = doc(db, "ticketPackages", updateTicket.id);
 
-      await updateDoc(ticketPackageRef, {
-        name: updateTicket.name,
+      const formatUpdate = {
+        nameEvent: updateTicket.nameEvent,
+        eventCode: updateTicket.eventCode,
         comboPrice: updateTicket.comboPrice,
         price: updateTicket.price,
         status: updateTicket.status,
         validDate: updateTicket.validDate,
-        expiryDate: updateTicket,
-      });
+        expiryDate: updateTicket.expiryDate,
+      };
+      console.log(formatUpdate);
+
+      await updateDoc(ticketPackageRef, formatUpdate);
 
       const getTicketPackageById = await getDoc(ticketPackageRef);
       const ticketPackage = {

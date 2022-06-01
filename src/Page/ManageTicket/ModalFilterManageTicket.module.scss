@@ -17,6 +17,19 @@
   padding: 0 63px;
 }
 
+.datePickerContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.datePickerInput {
+  width: 150px;
+}
+
+.formItem {
+  margin-bottom: 20px;
+}
+
 .ticketValueContainer {
   display: grid;
   grid-template-columns: 1fr 3fr;
@@ -30,4 +43,14 @@
 .radioContainer {
   display: flex;
   justify-content: space-between;
+}
+
+.checkboxContainer {
+  width: 100%;
+}
+
+.checkboxWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }

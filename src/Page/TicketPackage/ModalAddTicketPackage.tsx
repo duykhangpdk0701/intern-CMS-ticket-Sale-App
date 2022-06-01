@@ -3,7 +3,6 @@ import {
   Checkbox,
   Form,
   Input,
-  InputNumber,
   Modal,
   Select,
   TimePicker,
@@ -27,6 +26,7 @@ type ModalAddTicketPackageType = {
 const { Option } = Select;
 
 const ModalAddTicketPackage = (props: ModalAddTicketPackageType) => {
+  const { modalVisible, setModalVisible } = props;
   const [priceCheck, setPriceCheck] = useState(false);
   const [comboPriceCheck, setComboPriceCheck] = useState(false);
   const dispatch = useDispatch();
@@ -42,22 +42,26 @@ const ModalAddTicketPackage = (props: ModalAddTicketPackageType) => {
         name: value.name,
         validDate: combineDayAndTime(value.validDay, value.validTime),
         expiryDate: combineDayAndTime(value.expiryDay, value.expiryTime),
-        price: priceCheck ? value.price : null,
-        status: value.status || null,
+        price: priceCheck ? parseInt(value.price) : null,
+        status: value.status,
         comboPrice: comboPriceCheck
           ? `${value.comboPrice}/${value.comboPriceAmount}`
           : null,
+        nameEvent: null,
+        eventCode: null,
       };
       dispatch(addTicketPackage(newTicketPackage));
+      setModalVisible(false);
     } catch (error) {
       console.log(error);
+      setModalVisible(false);
     }
   };
 
   return (
     <Modal
       width={758}
-      visible={props.modalVisible}
+      visible={modalVisible}
       centered
       closable={false}
       onCancel={() => props.setModalVisible(false)}
@@ -96,99 +100,126 @@ const ModalAddTicketPackage = (props: ModalAddTicketPackageType) => {
         <div>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: "Input something!" }]}
+            rules={[
+              { required: true, message: "Xin vui lòng nhập tên gói vé!" },
+            ]}
             key="name"
             label={<label className="label">Tên gói vé</label>}>
-            <Input />
+            <Input
+              size="large"
+              placeholder="Nhập tên gói vé"
+              className={styles.ticketPackageInput}
+            />
           </Form.Item>
         </div>
-        <div>
-          <Form.Item label={<label className="label">Ngày áp dụng</label>}>
-            <Form.Item key="validDay" name="validDay">
-              <DatePickerCustom
-                type="from"
-                dayRange={dayRange}
-                setDayRange={setDayRange}
-              />
-            </Form.Item>
-            <Form.Item key="validTime" name="validTime">
-              <TimePicker />
-            </Form.Item>
-          </Form.Item>
-          <Form.Item label={<label className="label">Ngày hết hạn</label>}>
-            <Form.Item key="expiryDay" name="expiryDay">
-              <DatePickerCustom
-                type="to"
-                dayRange={dayRange}
-                setDayRange={setDayRange}
-              />
-            </Form.Item>
-            <Form.Item key="expiryTime" name="expiryTime">
-              <TimePicker />
-            </Form.Item>
-          </Form.Item>
+        <div className={styles.dateContainer}>
+          <div>
+            <label className="label">Ngày áp dụng</label>
+            <div className={styles.dateWrapper}>
+              <Form.Item key="validDay" name="validDay">
+                <DatePickerCustom
+                  type="from"
+                  dayRange={dayRange}
+                  setDayRange={setDayRange}
+                  inputClassName={styles.datePickerInput}
+                />
+              </Form.Item>
+              <Form.Item key="validTime" name="validTime">
+                <TimePicker
+                  placeholder="hh:mm:ss"
+                  size="large"
+                  className={styles.timePickerInput}
+                />
+              </Form.Item>
+            </div>
+          </div>
+          <div>
+            <label className="label">Ngày hết hạn</label>
+            <div className={styles.dateWrapper}>
+              <Form.Item key="expiryDay" name="expiryDay">
+                <DatePickerCustom
+                  type="to"
+                  dayRange={dayRange}
+                  setDayRange={setDayRange}
+                  inputClassName={styles.datePickerInput}
+                />
+              </Form.Item>
+              <Form.Item key="expiryTime" name="expiryTime">
+                <TimePicker
+                  placeholder="hh:mm:ss"
+                  size="large"
+                  className={styles.timePickerInput}
+                />
+              </Form.Item>
+            </div>
+          </div>
         </div>
+
         <div>
-          <Form.Item label={<label className="label">Giá vé áp dụng</label>}>
-            <Form.Item key="price" name="price">
+          <div>
+            <label className="label">Giá vé áp dụng</label>
+            <div>
               <div className={styles.priceWrapper}>
                 <Checkbox
                   checked={priceCheck}
                   onChange={() => setPriceCheck(!priceCheck)}>
                   Vé lẻ (vnđ/vé) với giá
                 </Checkbox>
-                <InputNumber
-                  min={1}
-                  controls={false}
-                  disabled={!priceCheck}
-                  className={`${styles.input} ${styles.inputLongOne}`}
-                  placeholder="Giá vé"
-                  required={priceCheck}
-                />
-                <div>/vé</div>
+                <Form.Item noStyle key="price" name="price">
+                  <Input
+                    size="large"
+                    disabled={!priceCheck}
+                    className={`${styles.input} ${styles.inputLongOne}`}
+                    placeholder="Giá vé"
+                    required={priceCheck}
+                  />
+                </Form.Item>
+                <div className={styles.unitPrice}>/ vé</div>
               </div>
-            </Form.Item>
-            <Form.Item>
+            </div>
+            <div>
               <div className={styles.priceWrapper}>
                 <Checkbox
                   checked={comboPriceCheck}
                   onChange={() => setComboPriceCheck(!comboPriceCheck)}>
                   Combo vé với giá
                 </Checkbox>
-                <Form.Item key="comboPrice" name="comboPrice">
-                  <InputNumber
-                    min={1}
-                    controls={false}
+                <Form.Item noStyle key="comboPrice" name="comboPrice">
+                  <Input
+                    size="large"
                     disabled={!comboPriceCheck}
                     className={`${styles.input} ${styles.inputLongOne}`}
                     placeholder="Giá vé"
                     required={comboPriceCheck}
                   />
                 </Form.Item>
-                <div> / </div>
-                <Form.Item key="comboPriceAmount" name="comboPriceAmount">
-                  <InputNumber
-                    min={1}
-                    controls={false}
+                <div className={styles.unitPrice}> / </div>
+                <Form.Item
+                  noStyle
+                  key="comboPriceAmount"
+                  name="comboPriceAmount">
+                  <Input
+                    size="large"
                     disabled={!comboPriceCheck}
                     className={`${styles.input} ${styles.inputShortOne}`}
                     placeholder="vé"
                     required={comboPriceCheck}
                   />
                 </Form.Item>
-                <div>vé</div>
+                <div className={styles.unitPrice}>vé</div>
               </div>
-            </Form.Item>
-          </Form.Item>
+            </div>
+          </div>
         </div>
 
         <div>
           <Form.Item
+            className={styles.statusSelect}
             key="status"
             name="status"
             initialValue={true}
             label={<label className="label">Tình trạng</label>}>
-            <Select>
+            <Select size="large">
               <Option value={true}>Đang áp dụng</Option>
               <Option value={false}>Tắt</Option>
             </Select>

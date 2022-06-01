@@ -19,20 +19,58 @@
   padding: 0 62px;
 }
 
+.eventCodeInput {
+  width: 245px;
+}
+
 .nameContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.1fr;
 }
 
 .dateContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.1fr;
 }
 
 .dateWrapper {
   display: flex;
 }
 
+.datePickerInput {
+  width: 150px;
+  margin-right: 10px;
+}
+
+.timePickerInput {
+  width: 130px;
+}
+
 .priceWrapper {
   display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.input {
+  background-color: $inputBg;
+  border: none;
+}
+
+.inputLongOne {
+  width: 148px;
+}
+
+.inputShortOne {
+  width: 72px;
+}
+
+.unitPrice {
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0 8px;
+}
+
+.statusSelect {
+  width: 176px;
 }

@@ -12,7 +12,7 @@ export const combineDayAndTime = (day: DayType, time: moment.Moment) => {
   let temp = `${day.year}-${day.month}-${day.day} `;
 
   if (time !== undefined) {
-    temp += moment(time).format("h:mm:ss");
+    temp += moment(time).format("HH:mm:ss");
   }
 
   const timeFormat = moment(temp).format();

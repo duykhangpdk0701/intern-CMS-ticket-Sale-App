@@ -34,7 +34,7 @@ const ModalChangeDateManageTicket = (
 
   useEffect(() => {
     form.setFieldsValue(initialValue);
-  }, [form, initialValue]);
+  }, [form, initialValue, valueItem]);
 
   const onFinish = async (value: any) => {
     try {
@@ -64,7 +64,7 @@ const ModalChangeDateManageTicket = (
       }
       footer={[
         <div className={styles.modalButtonContainer}>
-          <Form.Item key="buttonAction">
+          <Form.Item className={styles.buttonContainer} key="buttonAction">
             <Button
               style={{ marginRight: 24 }}
               size="large"
@@ -121,7 +121,10 @@ const ModalChangeDateManageTicket = (
           labelAlign="left"
           label={<Title level={5}>Hạn sử dụng</Title>}
           className={styles.ticketValueContainer}>
-          <DatePickerCustom hasOption={false} />
+          <DatePickerCustom
+            hasOption={false}
+            inputClassName={styles.datePickerInput}
+          />
         </Form.Item>
       </Form>
     </Modal>

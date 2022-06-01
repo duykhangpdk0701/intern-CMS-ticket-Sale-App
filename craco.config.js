@@ -3,6 +3,7 @@ const CracoLessPlugin = require("craco-less");
 const primaryColor = "#FFB800";
 const secondaryColor = "#ff993c";
 const checkBoxColor = "#27AEF9";
+const greyBorder = "#A5A8B1";
 
 module.exports = {
   plugins: [
@@ -12,11 +13,16 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
+              "@text-color": "#1E0D03",
               "@control-border-radius": "8px",
 
               "@primary-color": primaryColor,
               "@layout-sider-background": primaryColor,
               "@menu-item-active-bg": primaryColor,
+
+              "@input-border-color": greyBorder,
+              "@picker-border-color": greyBorder,
+              "@select-border-color": greyBorder,
 
               //btn
               "@btn-default-border": secondaryColor,

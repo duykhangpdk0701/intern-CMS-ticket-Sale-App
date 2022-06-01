@@ -17,12 +17,21 @@
   padding: 0 63px;
 }
 
+.buttonContainer {
+  margin-bottom: 8px;
+}
+
 .ticketValueContainer {
   display: grid;
   grid-template-columns: 1fr 3fr;
+  margin-bottom: 15px;
 }
 
 .textValue {
   font-weight: 500;
   font-size: 16px;
+}
+
+.datePickerInput {
+  width: 150px;
 }

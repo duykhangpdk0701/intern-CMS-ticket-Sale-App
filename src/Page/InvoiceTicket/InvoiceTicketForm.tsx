@@ -49,7 +49,7 @@ const InvoiceTicketForm = () => {
         className={styles.formItem}
         key="type"
         label={<label className="label">Loại vé</label>}>
-        <span>Vé Cổng</span>
+        <span className={styles.typeValue}>Vé Cổng</span>
       </Form.Item>
 
       <Form.Item
@@ -62,6 +62,7 @@ const InvoiceTicketForm = () => {
           type="from"
           dayRange={dayRange}
           setDayRange={setDayRange}
+          inputClassName={styles.datePickerInput}
         />
       </Form.Item>
 
@@ -75,6 +76,7 @@ const InvoiceTicketForm = () => {
           type="to"
           dayRange={dayRange}
           setDayRange={setDayRange}
+          inputClassName={styles.datePickerInput}
         />
       </Form.Item>
 

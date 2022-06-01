@@ -1,3 +1,5 @@
+@import "../../Styles/color";
+
 .form {
   width: 100%;
 }
@@ -16,4 +18,14 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   text-align: left;
+}
+
+.typeValue {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.datePickerInput {
+  border: none;
+  background-color: $backGroundColorTableCell;
 }

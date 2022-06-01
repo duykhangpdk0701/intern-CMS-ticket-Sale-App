@@ -14,6 +14,6 @@ export type ReturnDate = {
 export const formatDate = (date: DateType) => {
   return {
     date: moment.unix(date?.seconds).format("DD/MM/YYYY"),
-    time: moment.unix(date?.seconds).format("hh:mm:ss"),
+    time: moment.unix(date?.seconds).format("HH:mm:ss"),
   };
 };

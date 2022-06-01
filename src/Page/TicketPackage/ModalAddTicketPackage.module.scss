@@ -19,40 +19,38 @@
   padding: 0 62px;
 }
 
-.datePickerContainer {
-  display: grid;
-  width: 100%;
-  grid-template-columns: 1fr 1fr;
+.ticketPackageInput {
+  width: 53%;
 }
 
-.radioContainer {
+.dateContainer {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1.1fr;
+}
+
+.dateWrapper {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
 }
 
-.checkboxContainer {
-  width: 100%;
+.datePickerInput {
+  width: 150px;
+  margin-right: 10px;
 }
 
-.checkboxWrapper {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+.timePickerInput {
+  width: 130px;
 }
 
 .priceWrapper {
   display: flex;
   align-items: center;
-  font-weight: 500;
-  span {
-    font-size: 16px !important;
-  }
+  margin-bottom: 12px;
 }
 
 .input {
-  border-radius: 8px;
   background-color: $inputBg;
+  border: none;
 }
 
 .inputLongOne {
@@ -61,4 +59,14 @@
 
 .inputShortOne {
   width: 72px;
+}
+
+.unitPrice {
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0 8px;
+}
+
+.statusSelect {
+  width: 176px;
 }

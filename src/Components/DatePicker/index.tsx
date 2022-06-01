@@ -7,18 +7,17 @@ import { DatePicker as DatePickerAnt, Radio, RadioChangeEvent } from "antd";
 import moment from "moment";
 import styles from "./DatePicker.module.scss";
 import { customLocale } from "./customLocale";
-import { formatFromObjectDateToStringDate } from "../../helper/formatCustomDate";
 
 type DatePickerCustomType = {
   value?: any;
   onChange?: (value: DayValue) => void;
-  defaultValue?: any;
   textLabel?: string;
   className?: string;
   dayRange?: any;
   setDayRange?: React.Dispatch<React.SetStateAction<DayRange>>;
   type?: string;
   hasOption?: boolean;
+  inputClassName?: string;
 };
 
 const DatePickerCustom: React.FC<DatePickerCustomType> = (
@@ -34,23 +33,6 @@ const DatePickerCustom: React.FC<DatePickerCustomType> = (
 
   useEffect(() => {
     setValue(props.value);
-
-    // if (
-    //   props.dayRange.to !== null &&
-    //   props.dayRange.from !== null &&
-    //   !moment(formatFromObjectDateToStringDate(props.dayRange.to)).isAfter(
-    //     formatFromObjectDateToStringDate(props.dayRange.from),
-    //   ) &&
-    //   props.setDayRange
-    // ) {
-    //   console.log("inside the swap");
-    //   return props.setDayRange((pre) => {
-    //     const from = pre.from;
-    //     const to = pre.to;
-    //     return { to: from, from: to };
-    //   });
-    // }
-    // return;
   }, [props.value, props]);
 
   useEffect(() => {
@@ -111,7 +93,7 @@ const DatePickerCustom: React.FC<DatePickerCustomType> = (
       }
       renderInput={({ ref }) => (
         <DatePickerAnt
-          className={styles.input}
+          className={props.inputClassName}
           size="large"
           format="DD/MM/YYYY"
           value={
