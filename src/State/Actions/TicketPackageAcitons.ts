@@ -128,3 +128,54 @@ export const updateTicketPackage =
       });
     }
   };
+
+export const searchTicketPackage =
+  (search: string) =>
+  async (dispatch: Dispatch<TicketPackageDispatchTypes>) => {
+    try {
+      let ticketPackage: TicketPackageTypes[] = [];
+
+      dispatch({
+        type: TICKET_PACKAGE_LOADING,
+      });
+
+      const queryTicketPackage = await getDocs(
+        collection(db, "ticketPackages"),
+      );
+
+      queryTicketPackage.forEach((value) => {
+        const temp = value.data();
+        const id = value.id;
+        ticketPackage.push({
+          id: id,
+          nameEvent: temp.nameEvent,
+          comboPrice: temp.comboPrice,
+          name: temp.name,
+          price: temp.price,
+          status: temp.status,
+          validDate: temp.validDate,
+          expiryDate: temp.expiryDate,
+          eventCode: temp.eventCode,
+        });
+      });
+
+      ticketPackage.reverse();
+
+      ticketPackage = ticketPackage.filter((value) => {
+        if (search === "") {
+          return value;
+        } else {
+          return value.id.toLocaleLowerCase().includes(search);
+        }
+      });
+      dispatch({
+        type: TICKET_PACKAGE_GET_SUCCESS,
+        payload: ticketPackage,
+      });
+    } catch (error) {
+      dispatch({
+        type: TICKET_PACKAGE_FAIL,
+        error: error as Error,
+      });
+    }
+  };

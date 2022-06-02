@@ -10,7 +10,7 @@ export const returnStatusColor = (color: ColorType) => {
     case "primary":
       return {
         color1: "#03AC00",
-        color2: "#DEF7E0",
+        color2: "#EAF1F8",
       };
 
     case "danger":

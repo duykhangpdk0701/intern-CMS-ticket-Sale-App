@@ -18,7 +18,7 @@ export type TicketTypes = {
 export type TicketFilterTypes = {
   dateForm: string | undefined;
   dateTo: string | undefined;
-  status: string | boolean;
+  statusUsage: string | number;
   checkIn: string[];
 };
 

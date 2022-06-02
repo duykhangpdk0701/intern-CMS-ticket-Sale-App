@@ -16,7 +16,7 @@ export const formatCustomDate = (date: any) => {
 };
 
 export const formatFromObjectDateToStringDate = (date: any) => {
-  if (date === undefined) return undefined;
+  if (date === undefined || date === null) return undefined;
   const newDate = { ...date, month: date.month - 1 };
   return moment(newDate).format();
 };

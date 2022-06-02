@@ -5,8 +5,8 @@ import { getTicketsWithFilter } from "../../State/Actions/TicketActions";
 import styles from "./ModalFilterManageTicket.module.scss";
 import { useDispatch } from "react-redux";
 import DatePickerCustom from "../../Components/DatePicker";
-import { formatFromObjectDateToStringDate } from "../../helper/formatCustomDate";
 import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
+import type { CheckboxChangeEvent } from "antd/es/checkbox";
 
 type ModalManageTicketType = {
   modalVisible: boolean;
@@ -14,20 +14,35 @@ type ModalManageTicketType = {
 };
 
 const ModalFilterManageTicket = (props: ModalManageTicketType) => {
+  const { modalVisible, setModalVisible } = props;
+
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
 
   const [dayRange, setDayRange] = useState<DayRange>({
     from: null,
     to: null,
   });
 
+  const initialValue = {
+    dateFrom: undefined,
+    dateTo: undefined,
+    statusUsage: "all",
+    checkIn: ["all"],
+  };
+
+  const selectAllOnChange = (e: CheckboxChangeEvent) => {
+    if (e.target.checked) {
+      form.setFieldsValue({ checkIn: ["all"] });
+    }
+  };
+
   const onFinish = async (value: TicketFilterTypes) => {
+    console.log(value);
     try {
       dispatch(
         getTicketsWithFilter({
           ...value,
-          dateForm: formatFromObjectDateToStringDate(value.dateForm),
-          dateTo: formatFromObjectDateToStringDate(value.dateTo),
         }),
       );
       props.setModalVisible(false);
@@ -48,9 +63,9 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
         </Typography.Title>
       }
       centered
-      visible={props.modalVisible}
+      visible={modalVisible}
       closable={false}
-      onCancel={() => props.setModalVisible(false)}
+      onCancel={() => setModalVisible(false)}
       footer={[
         <div className={styles.modalButtonContainer}>
           <Form.Item key="buttonAction">
@@ -67,7 +82,13 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
           </Form.Item>
         </div>,
       ]}>
-      <Form id="ticketFilter" onFinish={onFinish} layout="vertical">
+      <Form
+        form={form}
+        id="ticketFilter"
+        name="control-hooks"
+        onFinish={onFinish}
+        initialValues={initialValue}
+        layout="vertical">
         <div className={styles.datePickerContainer}>
           <Form.Item
             name="dateForm"
@@ -94,8 +115,8 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
         <div>
           <Form.Item
             className={styles.formItem}
-            initialValue={"all"}
-            name="status"
+            // initialValue={"all"}
+            name="statusUsage"
             label={<label className="label">Tình trạng sử dụng</label>}>
             <Radio.Group className={styles.radioContainer}>
               <Radio value={"all"}>Tất cả</Radio>
@@ -109,12 +130,13 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
         <div>
           <Form.Item
             className={styles.formItem}
-            initialValue={["all"]}
+            // initialValue={["all"]}
             name="checkIn"
+            key="checkIn"
             label={<label className="label">Cổng Check - in</label>}>
             <Checkbox.Group className={styles.checkboxContainer}>
               <div className={styles.checkboxWrapper}>
-                <Checkbox defaultChecked value={"all"}>
+                <Checkbox onChange={selectAllOnChange} value={"all"}>
                   Tất cả
                 </Checkbox>
                 <Checkbox value={"Cổng 1"}>Cổng 1</Checkbox>

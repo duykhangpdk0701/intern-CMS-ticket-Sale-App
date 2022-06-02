@@ -1,13 +1,9 @@
-import {
-  collection,
-  getDocs,
-  query,
-  QueryConstraint,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import moment from "moment";
 import { Dispatch } from "redux";
 import { db } from "../../Config/FirebaseConfig";
+import { formatObjectToMoment } from "../../helper/formatObjectToMoment";
+import { formatUnixDateToMoment } from "../../helper/formatUnixDateToMoment";
 import {
   FilterInvoiceTicketType,
   InvoiceTicketDispatchTypes,
@@ -58,40 +54,13 @@ export const getInvoiceTicketsWithFilter =
   (invoiceTickerFilter: FilterInvoiceTicketType) =>
   async (dispatch: Dispatch<InvoiceTicketDispatchTypes>) => {
     try {
-      const invoiceTicket: InvoiceTicketTypes[] = [];
-      const queryFilter: QueryConstraint[] = [];
+      let invoiceTicket: InvoiceTicketTypes[] = [];
 
       dispatch({
         type: INVOICE_TICKET_LOADING,
       });
 
-      //date from
-      if (
-        invoiceTickerFilter.dateFrom !== undefined &&
-        invoiceTickerFilter.dateFrom !== null
-      ) {
-        const dateFrom = moment(invoiceTickerFilter.dateFrom)
-          .subtract("months", 1)
-          .format();
-        queryFilter.push(where("dateUse", ">", new Date(dateFrom as string)));
-      }
-      // date to
-      if (
-        invoiceTickerFilter.dateEnd !== undefined &&
-        invoiceTickerFilter.dateEnd !== null
-      ) {
-        const dateTo = moment(invoiceTickerFilter.dateEnd)
-          .subtract("months", 1)
-          .format();
-        queryFilter.push(where("dateUse", "<", new Date(dateTo as string)));
-      }
-
-      //filter status
-      if (invoiceTickerFilter.status !== "all") {
-        queryFilter.push(where("status", "==", invoiceTickerFilter.status));
-      }
-
-      const q = query(collection(db, "invoiceTicket"), ...queryFilter);
+      const q = query(collection(db, "invoiceTicket"));
       const queryInvoiceTickets = await getDocs(q);
       queryInvoiceTickets.forEach((value) => {
         const temp = value.data() as InvoiceTicketTypes;
@@ -106,6 +75,81 @@ export const getInvoiceTicketsWithFilter =
       });
 
       invoiceTicket.reverse();
+
+      //date from
+      if (
+        invoiceTickerFilter.dateFrom !== undefined &&
+        invoiceTickerFilter.dateFrom !== null
+      ) {
+        const dateFrom = formatObjectToMoment(invoiceTickerFilter.dateFrom);
+        invoiceTicket = invoiceTicket.filter((value) => {
+          const formatDateUse = formatUnixDateToMoment(value.dateUse);
+          return moment(formatDateUse).isSameOrAfter(dateFrom);
+        });
+      }
+      // date to
+      if (
+        invoiceTickerFilter.dateEnd !== undefined &&
+        invoiceTickerFilter.dateEnd !== null
+      ) {
+        const dateTo = formatObjectToMoment(invoiceTickerFilter.dateEnd);
+        invoiceTicket = invoiceTicket.filter((value) => {
+          const formatDateUse = formatUnixDateToMoment(value.dateUse);
+          return moment(formatDateUse).isSameOrBefore(dateTo);
+        });
+      }
+
+      //filter status
+      if (invoiceTickerFilter.status !== "all") {
+        invoiceTicket = invoiceTicket.filter(
+          (value) => value.status === invoiceTickerFilter.status,
+        );
+      }
+
+      dispatch({
+        type: INVOICE_TICKET_GET_SUCCESS_WITH_FILTER,
+        payload: invoiceTicket,
+      });
+    } catch (error) {
+      dispatch({
+        type: INVOICE_TICKET_FAIL,
+        error: error as Error,
+      });
+    }
+  };
+
+export const searchInvoiceTicket =
+  (search: string) =>
+  async (dispatch: Dispatch<InvoiceTicketDispatchTypes>) => {
+    try {
+      let invoiceTicket: InvoiceTicketTypes[] = [];
+      dispatch({
+        type: INVOICE_TICKET_LOADING,
+      });
+      const q = query(collection(db, "invoiceTicket"));
+      const queryInvoiceTickets = await getDocs(q);
+      queryInvoiceTickets.forEach((value) => {
+        const temp = value.data() as InvoiceTicketTypes;
+        const id = value.id;
+        invoiceTicket.push({
+          id: id,
+          checkIn: temp.checkIn,
+          dateUse: temp.dateUse,
+          name: temp.name,
+          status: temp.status,
+        });
+      });
+
+      invoiceTicket.reverse();
+
+      invoiceTicket = invoiceTicket.filter((value) => {
+        if (search === "") {
+          return value;
+        } else {
+          return value.id.toLocaleLowerCase().includes(search);
+        }
+      });
+
       dispatch({
         type: INVOICE_TICKET_GET_SUCCESS_WITH_FILTER,
         payload: invoiceTicket,

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTicketPackage } from "../../State/Actions/TicketPackageAcitons";
+import {
+  getTicketPackage,
+  searchTicketPackage,
+} from "../../State/Actions/TicketPackageAcitons";
 import { RootStore } from "../../State/Store";
 import { Typography, Button } from "antd";
 import styles from "./TicketPackage.module.scss";
 import SearchInput from "../../Components/SearchInput";
 import TableTicketPackage from "./TableTicketPackage";
 import ModalAddTicketPackage from "./ModalAddTicketPackage";
+import { CSVLink } from "react-csv";
 
 const { Title } = Typography;
 
@@ -24,6 +28,10 @@ const TicketPackage = () => {
     getData();
   }, [dispatch]);
 
+  const onSearch = (e: string) => {
+    dispatch(searchTicketPackage(e));
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.titleContainer}>
@@ -34,6 +42,7 @@ const TicketPackage = () => {
           <SearchInput
             className={styles.searchInput}
             placeholder="Tìm bằng số vé"
+            onSearch={onSearch}
           />
         </div>
 
@@ -43,7 +52,11 @@ const TicketPackage = () => {
             type="primary"
             ghost
             style={{ marginRight: "24px" }}>
-            Xuất file (.csv)
+            <CSVLink
+              filename="TicketPackage.csv"
+              data={ticketPackagesState.current}>
+              Xuất file (.csv)
+            </CSVLink>
           </Button>
 
           <ModalAddTicketPackage

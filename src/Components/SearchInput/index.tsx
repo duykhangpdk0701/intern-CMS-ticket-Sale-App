@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import styles from "./SearchInput.module.scss";
@@ -16,7 +16,7 @@ const SearchInput = (props: IProps) => {
   const { className, placeholder } = props;
   const [valueInput, setValueInput] = useState<string | undefined>();
 
-  const onSearch = React.useMemo(() => {
+  const onSearch = useMemo(() => {
     return lodash.debounce((text: string) => {
       if (props.onSearch) {
         props.onSearch(text);
@@ -25,14 +25,15 @@ const SearchInput = (props: IProps) => {
   }, [props]);
 
   useEffect(() => {
-    if (valueInput == null) {
+    if (valueInput === null || valueInput === undefined) {
       return;
     }
     onSearch(valueInput);
     return () => {
       onSearch.cancel();
     };
-  }, [onSearch, valueInput]);
+    // eslint-disable-next-line
+  }, [valueInput]);
 
   const onClickKeyDown = (event: any) => {
     if (event.keyCode === 13 && props.onClick) {
@@ -40,16 +41,17 @@ const SearchInput = (props: IProps) => {
     }
   };
 
-  const onChange = (e: any) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     setValueInput(text);
     if (props.onChange) {
-      props.onChange(e);
+      props.onChange(text);
     }
   };
 
   return (
     <Input
+      value={valueInput}
       type="text"
       onChange={onChange}
       onKeyDown={onClickKeyDown}

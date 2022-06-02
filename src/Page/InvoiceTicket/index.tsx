@@ -2,7 +2,10 @@ import { Typography, Button } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchInput from "../../Components/SearchInput";
-import { getInvoiceTickets } from "../../State/Actions/InvoiceTicketActions";
+import {
+  getInvoiceTickets,
+  searchInvoiceTicket,
+} from "../../State/Actions/InvoiceTicketActions";
 import { RootStore } from "../../State/Store";
 import styles from "./InvoiceTicket.module.scss";
 import InvoiceTicketForm from "./InvoiceTicketForm";
@@ -23,6 +26,10 @@ const InvoiceTicket = () => {
     getData();
   }, [dispatch]);
 
+  const onSearch = (e: string) => {
+    dispatch(searchInvoiceTicket(e));
+  };
+
   return (
     <div className={styles.mainContext}>
       <div className={styles.main}>
@@ -35,6 +42,7 @@ const InvoiceTicket = () => {
             <SearchInput
               className={styles.searchInput}
               placeholder="Tìm bằng số vé"
+              onSearch={onSearch}
             />
           </div>
 

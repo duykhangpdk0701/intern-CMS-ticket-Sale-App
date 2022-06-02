@@ -4,12 +4,13 @@ import {
   getDoc,
   getDocs,
   query,
-  QueryConstraint,
   updateDoc,
-  where,
 } from "firebase/firestore";
+import moment from "moment";
 import { Dispatch } from "redux";
 import { db } from "../../Config/FirebaseConfig";
+import { formatObjectToMoment } from "../../helper/formatObjectToMoment";
+import { formatUnixDateToMoment } from "../../helper/formatUnixDateToMoment";
 import {
   TicketDispatchTypes,
   TicketFilterTypes,
@@ -64,39 +65,12 @@ export const getTicketsWithFilter =
   (ticketFilter: TicketFilterTypes) =>
   async (dispatch: Dispatch<TicketDispatchTypes>) => {
     try {
-      const tickets: TicketTypes[] = [];
+      let tickets: TicketTypes[] = [];
       dispatch({
         type: TICKET_LOADING,
       });
 
-      const queryFilter: QueryConstraint[] = [];
-      //filter dateFrom
-      if (
-        ticketFilter.dateForm !== undefined &&
-        ticketFilter.dateForm !== null
-      ) {
-        queryFilter.push(
-          where("dateTicketRelease", ">=", new Date(ticketFilter.dateForm)),
-        );
-      }
-
-      //filter dateTo
-      if (ticketFilter.dateTo !== undefined && ticketFilter.dateTo !== null) {
-        queryFilter.push(
-          where("dateTicketRelease", "<=", new Date(ticketFilter.dateTo)),
-        );
-      }
-
-      // filter status
-      if (ticketFilter.status !== "all") {
-        queryFilter.push(where("statusUsage", "==", ticketFilter.status));
-      }
-      //filter check - in
-      if (!ticketFilter.checkIn.includes("all")) {
-        queryFilter.push(where("checkIn", "in", ticketFilter.checkIn));
-      }
-
-      const q = query(collection(db, "ticket"), ...queryFilter);
+      const q = query(collection(db, "ticket"));
 
       const queryTickets = await getDocs(q);
       queryTickets.forEach((value) => {
@@ -113,6 +87,43 @@ export const getTicketsWithFilter =
         });
         tickets.reverse();
       });
+
+      //filter dateFrom
+      if (
+        ticketFilter.dateForm !== undefined &&
+        ticketFilter.dateForm !== null
+      ) {
+        const dateFrom = formatObjectToMoment(ticketFilter.dateForm);
+        tickets = tickets.filter((value) => {
+          const formatDateUse = formatUnixDateToMoment(value.dateUse);
+          return moment(formatDateUse).isSameOrAfter(dateFrom);
+        });
+      }
+
+      //filter dateTo
+      if (ticketFilter.dateTo !== undefined && ticketFilter.dateTo !== null) {
+        const dateTo = formatObjectToMoment(ticketFilter.dateTo);
+        tickets = tickets.filter((value) => {
+          const formatDateUse = formatUnixDateToMoment(value.dateUse);
+          return moment(formatDateUse).isSameOrBefore(dateTo);
+        });
+      }
+
+      // filter status
+      if (ticketFilter.statusUsage !== "all") {
+        tickets = tickets.filter(
+          (value) => value.statusUsage === ticketFilter.statusUsage,
+        );
+      }
+      //filter check - in
+      if (!ticketFilter.checkIn.includes("all")) {
+        tickets = tickets.filter((value) => {
+          if (value.checkIn) {
+            return ticketFilter.checkIn.includes(value.checkIn);
+          }
+          return false;
+        });
+      }
 
       dispatch({
         type: TICKET_GET_WITH_FILTER_SUCCESS,
@@ -151,6 +162,52 @@ export const updateTicketDate =
       dispatch({
         type: TICKET_UPDATE_DATE_SUCCESS,
         payload: ticket,
+      });
+    } catch (error) {
+      dispatch({
+        type: TICKET_FAIL,
+        error: error as Error,
+      });
+    }
+  };
+
+export const searchTicket =
+  (search: string) => async (dispatch: Dispatch<TicketDispatchTypes>) => {
+    try {
+      let tickets: TicketTypes[] = [];
+      dispatch({
+        type: TICKET_LOADING,
+      });
+
+      const q = query(collection(db, "ticket"));
+
+      const queryTickets = await getDocs(q);
+      queryTickets.forEach((value) => {
+        const temp = value.data() as TicketTypes;
+        const id = value.id;
+        tickets.push({
+          id: id,
+          bookingCode: temp.bookingCode,
+          checkIn: temp.checkIn,
+          dateTicketRelease: temp.dateTicketRelease,
+          dateUse: temp.dateUse,
+          nameEvent: temp.nameEvent,
+          statusUsage: temp.statusUsage,
+        });
+        tickets.reverse();
+      });
+
+      tickets = tickets.filter((value) => {
+        if (search === "") {
+          return value;
+        } else {
+          return value.id.toLocaleLowerCase().includes(search);
+        }
+      });
+
+      dispatch({
+        type: TICKET_GET_WITH_FILTER_SUCCESS,
+        payload: tickets,
       });
     } catch (error) {
       dispatch({
