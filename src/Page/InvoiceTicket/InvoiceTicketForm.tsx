@@ -62,7 +62,7 @@ const InvoiceTicketForm = () => {
           type="from"
           dayRange={dayRange}
           setDayRange={setDayRange}
-          inputClassName={styles.datePickerInput}
+          inputClassName={`${styles.datePickerInput} ${styles.datePickerInputFirst}`}
         />
       </Form.Item>
 

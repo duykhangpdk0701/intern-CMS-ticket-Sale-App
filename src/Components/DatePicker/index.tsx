@@ -1,9 +1,10 @@
-import DatePicker, {
+import {
+  Calendar,
   DayRange,
   DayValue,
 } from "@hassanmojab/react-modern-calendar-datepicker";
 import React, { useEffect, useState } from "react";
-import { DatePicker as DatePickerAnt, Radio, RadioChangeEvent } from "antd";
+import { DatePicker, Popover, Radio, RadioChangeEvent } from "antd";
 import moment from "moment";
 import styles from "./DatePicker.module.scss";
 import { customLocale } from "./customLocale";
@@ -20,12 +21,10 @@ type DatePickerCustomType = {
   inputClassName?: string;
 };
 
-const DatePickerCustom: React.FC<DatePickerCustomType> = (
-  props: DatePickerCustomType,
-) => {
+const DatePickerCustom: React.FC<DatePickerCustomType> = (props) => {
   const { hasOption = true } = props;
-  const [radioValue, setRadioValue] = useState(true);
   const [value, setValue] = useState(props.value);
+  const [radioValue, setRadioValue] = useState(true);
 
   const onChangeRadio = (e: RadioChangeEvent) => {
     setRadioValue(e.target.value);
@@ -66,11 +65,10 @@ const DatePickerCustom: React.FC<DatePickerCustomType> = (
     }
   };
 
-  return (
-    <DatePicker
+  const calenderContent = (
+    <Calendar
+      calendarClassName={styles.calendarWrapper}
       calendarSelectedDayClassName={styles.selectDay}
-      wrapperClassName={styles.calendarWrapper}
-      calendarClassName={styles.calendar}
       value={radioValue ? value : props.dayRange}
       onChange={radioValue ? onChange : onChangeRange}
       locale={customLocale}
@@ -91,21 +89,24 @@ const DatePickerCustom: React.FC<DatePickerCustomType> = (
             }
           : undefined
       }
-      renderInput={({ ref }) => (
-        <DatePickerAnt
-          className={props.inputClassName}
-          size="large"
-          format="DD/MM/YYYY"
-          value={
-            value ? moment({ ...value, month: value.month - 1 }) : undefined
-          }
-          panelRender={() => <></>}
-          ref={ref as any}
-          placeholder="dd/mm/yy"
-          onChange={onChange}
-        />
-      )}
     />
+  );
+
+  return (
+    <Popover
+      trigger="click"
+      content={calenderContent}
+      overlayInnerStyle={{ borderRadius: 20 }}>
+      <DatePicker
+        value={value ? moment({ ...value, month: value.month - 1 }) : undefined}
+        panelRender={() => undefined}
+        size="large"
+        format="DD/MM/YYYY"
+        placeholder="dd/mm/yy"
+        onChange={onChange}
+        className={props.inputClassName}
+      />
+    </Popover>
   );
 };
 

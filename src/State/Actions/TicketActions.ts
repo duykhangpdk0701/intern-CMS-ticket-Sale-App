@@ -194,8 +194,8 @@ export const searchTicket =
           nameEvent: temp.nameEvent,
           statusUsage: temp.statusUsage,
         });
-        tickets.reverse();
       });
+      tickets.reverse();
 
       tickets = tickets.filter((value) => {
         if (search === "") {

@@ -74,6 +74,10 @@
   }
 }
 
+.DatePicker__calendarContainer {
+  z-index: 3000;
+}
+
 //calendarPicker
 .Calendar {
   width: 370px;
@@ -100,23 +104,33 @@
 
 .Calendar__header {
   order: 1;
-  min-width: 200px;
+  min-width: 220px;
   padding: 0;
   margin-left: 32px;
   margin-bottom: 16px;
 }
+
 .Calendar__monthText {
-  width: 90px;
+  width: 115px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.Calendar__yearText {
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .Calendar__monthSelectorAnimationWrapper {
   order: 3;
   width: 100%;
+  height: 85%;
 }
 
 .Calendar__yearSelectorAnimationWrapper {
   order: 4;
   width: 100%;
+  height: 85%;
 }
 
 .Calendar__weekDays {
@@ -134,4 +148,9 @@
   padding: 0 32px;
   order: 2;
   width: 100%;
+}
+
+//padding
+.ant-popover-inner-content {
+  padding: 0;
 }

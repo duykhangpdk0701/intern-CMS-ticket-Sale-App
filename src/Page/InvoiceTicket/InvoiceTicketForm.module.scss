@@ -26,6 +26,12 @@
 }
 
 .datePickerInput {
+  position: relative;
   border: none;
   background-color: $backGroundColorTableCell;
+  opacity: 0.99;
+  z-index: 50 !important;
+}
+.datePickerInputFirst {
+  z-index: 60 !important;
 }
