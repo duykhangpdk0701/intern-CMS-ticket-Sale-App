@@ -84,7 +84,6 @@ const InvoiceTicketForm = () => {
         className={styles.buttonSubmit}
         htmlType="submit"
         size="large"
-        type="primary"
         ghost>
         Lọc
       </Button>

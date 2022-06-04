@@ -20,6 +20,8 @@ module.exports = {
               "@layout-sider-background": primaryColor,
               "@menu-item-active-bg": primaryColor,
 
+              "@menu-item-font-size": "18px",
+
               "@input-border-color": greyBorder,
               "@picker-border-color": greyBorder,
               "@select-border-color": greyBorder,
@@ -34,6 +36,8 @@ module.exports = {
               "@btn-height-lg": "48px",
               "@btn-font-size-lg": "18px",
               "@btn-font-size-sm": "14px",
+              "@btn-default-ghost-color": secondaryColor,
+              "@btn-default-ghost-border": secondaryColor,
 
               //radio
               "@radio-button-bg": "#fff",

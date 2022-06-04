@@ -8,6 +8,7 @@ import styles from "./ManageTicket.module.scss";
 import ModalFilterManageTicket from "./ModalFilterManageTicket";
 import TableManageTicket from "./TableManageTicket";
 import { CSVLink } from "react-csv";
+import FilterIcon from "../../Assets/Icon/FilterIcon";
 
 const { Title } = Typography;
 
@@ -46,9 +47,9 @@ const ManageTicket = () => {
           <Button
             style={{ marginRight: "24px" }}
             size="large"
-            type="primary"
             ghost
-            onClick={() => setModalVisible(true)}>
+            onClick={() => setModalVisible(true)}
+            icon={<FilterIcon />}>
             Lọc vé
           </Button>
           <ModalFilterManageTicket
@@ -56,7 +57,7 @@ const ManageTicket = () => {
             setModalVisible={setModalVisible}
           />
 
-          <Button size="large" type="primary" ghost>
+          <Button size="large" ghost>
             <CSVLink filename="ManageTicket.csv" data={ticketsState.current}>
               Xuất file (.csv)
             </CSVLink>

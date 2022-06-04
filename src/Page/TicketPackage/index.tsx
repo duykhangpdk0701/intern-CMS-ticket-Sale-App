@@ -47,11 +47,7 @@ const TicketPackage = () => {
         </div>
 
         <div>
-          <Button
-            size="large"
-            type="primary"
-            ghost
-            style={{ marginRight: "24px" }}>
+          <Button size="large" ghost style={{ marginRight: "24px" }}>
             <CSVLink
               filename="TicketPackage.csv"
               data={ticketPackagesState.current}>

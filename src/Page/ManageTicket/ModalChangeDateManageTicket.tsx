@@ -68,7 +68,6 @@ const ModalChangeDateManageTicket = (
             <Button
               style={{ marginRight: 24 }}
               size="large"
-              type="primary"
               ghost
               className={styles.modalButton}
               onClick={() => setModalVisible(false)}>

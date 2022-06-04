@@ -113,7 +113,6 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
             <Button
               style={{ marginRight: 24 }}
               size="large"
-              type="primary"
               ghost
               className={styles.modalButton}
               onClick={() => setModalVisible(false)}>
@@ -249,6 +248,15 @@ const ModalUpdateTicketPackage = (props: ModalUpdateTicketPackageType) => {
               <Option value={false}>Tắt</Option>
             </Select>
           </Form.Item>
+        </div>
+
+        <div>
+          <div>
+            <Typography.Text className={styles.requireSign}>*</Typography.Text>{" "}
+            <Typography.Text className={styles.requireText}>
+              là thông tin bắt buộc
+            </Typography.Text>
+          </div>
         </div>
       </Form>
     </Modal>

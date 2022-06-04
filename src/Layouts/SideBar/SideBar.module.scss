@@ -6,19 +6,50 @@
   padding: 33px;
 }
 
+.menuWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .menu {
   background-color: $backGroundColorMain;
   border: none;
+  width: 100%;
 }
 
 .itemMenu {
   height: 56px !important;
   border-radius: 8px;
   background-color: $backGroundColorMain;
+
+  .text {
+    opacity: 0.8;
+    font-weight: 500;
+  }
 }
 
 .subMenu {
   height: 56px !important;
   border-radius: 8px;
   background-color: $backGroundColorMain;
+}
+
+.textCopyright {
+  font-weight: 400;
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.subItemMenu {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.subItemMenuText {
+  font-weight: 500;
+  font-size: 18px;
+  opacity: 0.8;
 }

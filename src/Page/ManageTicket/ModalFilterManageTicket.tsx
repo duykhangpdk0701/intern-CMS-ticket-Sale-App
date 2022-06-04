@@ -75,8 +75,7 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
               className={styles.modalButton}
               size="large"
               key="submit"
-              ghost
-              type="primary">
+              ghost>
               Lọc
             </Button>
           </Form.Item>

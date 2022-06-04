@@ -16,7 +16,12 @@ const Home = () => {
       </div>
       <div className={styles.chartLineTitleContainer}>
         <Title level={5}>Doanh thu</Title>
-        <DatePicker picker="month" />
+        <DatePicker
+          className={styles.datePicker}
+          picker="month"
+          placeholder="Chọn tháng"
+          format={"[Tháng] M, YYYY"}
+        />
       </div>
       <div className={styles.chartLineContainer}>
         <ChartLine data={chartLineData} />
@@ -30,7 +35,12 @@ const Home = () => {
       </div>
       <div className={styles.chartPieContainer}>
         <div>
-          <DatePicker picker="month" />
+          <DatePicker
+            picker="month"
+            placeholder="Chọn tháng"
+            className={styles.datePicker}
+            format={"[Tháng] M, YYYY"}
+          />
         </div>
 
         <div className={styles.chartPieWrapperNoLegend}>
