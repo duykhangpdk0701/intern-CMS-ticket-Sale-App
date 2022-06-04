@@ -1,48 +1,73 @@
 import React from "react";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import Chart from "react-apexcharts";
 
 type ChartLineType = {
-  chartLineData: {
+  data: {
     name: string;
-    uv: number;
-    pv: number;
-    amt: number;
+    data: number[];
   }[];
 };
 
-const ChartLine = (props: ChartLineType) => {
+const ChartLine1: React.FC<ChartLineType> = (props) => {
+  const series = props.data as any;
+
+  const options: ApexCharts.ApexOptions = {
+    chart: {
+      width: 100,
+      toolbar: {
+        show: false,
+      },
+
+      zoom: {
+        enabled: false,
+      },
+
+      events: {
+        mounted: (chart) => {
+          chart.windowResizeHandler();
+        },
+      },
+    },
+
+    colors: ["#FF993C"],
+
+    dataLabels: {
+      enabled: false,
+    },
+
+    xaxis: {
+      categories: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"],
+    },
+
+    yaxis: {
+      labels: {
+        formatter: (value) => {
+          const valueString = value.toString();
+          if (valueString.length > 6) {
+            return valueString.slice(0, valueString.length - 6) + "tr";
+          }
+
+          return valueString;
+        },
+      },
+    },
+
+    responsive: [
+      {
+        breakpoint: 1000,
+      },
+    ],
+  };
+
   return (
-    <ResponsiveContainer height={300}>
-      <AreaChart
-        data={props.chartLineData}
-        margin={{
-          top: 10,
-          right: 30,
-          left: 0,
-          bottom: 0,
-        }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis axisLine={false} dataKey="name" />
-        <YAxis axisLine={false} />
-        <Tooltip />
-        <Area
-          type="monotone"
-          dataKey="uv"
-          strokeWidth={4}
-          stroke="#ff993b"
-          fill="#feebde"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <Chart
+      height={300}
+      width="100%"
+      options={options}
+      type="area"
+      series={series}
+    />
   );
 };
 
-export default ChartLine;
+export default ChartLine1;

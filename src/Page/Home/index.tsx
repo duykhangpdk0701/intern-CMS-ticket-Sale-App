@@ -19,7 +19,7 @@ const Home = () => {
         <DatePicker picker="month" />
       </div>
       <div className={styles.chartLineContainer}>
-        <ChartLine chartLineData={chartLineData} />
+        <ChartLine data={chartLineData} />
       </div>
       <div className={styles.totalContainer}>
         <Text className={styles.totalValueLabel}>Tổng doanh thu theo tuần</Text>
@@ -33,12 +33,14 @@ const Home = () => {
           <DatePicker picker="month" />
         </div>
 
-        <div className={styles.chartPieWrapper}>
-          <ChartPie chartPieData={chartLineData1} />
+        <div className={styles.chartPieWrapperNoLegend}>
+          <ChartPie data={chartLineData1} />
         </div>
+
         <div className={styles.chartPieWrapper}>
-          <ChartPie chartPieData={chartLineData2} />
+          <ChartPie data={chartLineData2} legend={true} />
         </div>
+
         <div></div>
       </div>
     </div>

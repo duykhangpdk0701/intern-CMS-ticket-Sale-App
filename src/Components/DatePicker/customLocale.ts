@@ -27,23 +27,23 @@ export const customLocale = {
       short: "T2",
     },
     {
-      name: "Tuesday",
+      name: "Thứ 3",
       short: "T3",
     },
     {
-      name: "Wednesday",
+      name: "Thứ 4",
       short: "T4",
     },
     {
-      name: "Thursday",
+      name: "Thứ 5",
       short: "T5",
     },
     {
-      name: "Friday",
+      name: "Thứ 6",
       short: "T6",
     },
     {
-      name: "Saturday",
+      name: "Thứ 7",
       short: "T7",
       isWeekend: true,
     },
@@ -73,8 +73,8 @@ export const customLocale = {
   },
 
   // texts in the date picker
-  nextMonth: "Next Month",
-  previousMonth: "Previous Month",
+  nextMonth: "Tháng sau",
+  previousMonth: "Tháng trước",
   openMonthSelector: "Open Month Selector",
   openYearSelector: "Open Year Selector",
   closeMonthSelector: "Close Month Selector",
