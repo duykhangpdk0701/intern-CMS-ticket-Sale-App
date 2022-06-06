@@ -27,11 +27,11 @@ const TableManageTicket = (props: TableManageTicketType) => {
     <>
       <Table
         rowClassName={styles.row}
-        size="middle"
+        size="small"
         loading={props.ticketsState.loading}
         dataSource={props.ticketsState.current}
         className={styles.table}
-        pagination={{ size: "small", position: ["bottomCenter"] }}
+        pagination={{ size: "small", position: ["bottomCenter"], pageSize: 9 }}
         onHeaderRow={(columns, index) => ({
           className: styles.header,
         })}>

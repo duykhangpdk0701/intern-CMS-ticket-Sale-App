@@ -1,5 +1,14 @@
-import { Button, Checkbox, Form, Modal, Radio, Typography } from "antd";
-import React, { useState } from "react";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Modal,
+  Radio,
+  Row,
+  Typography,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import { TicketFilterTypes } from "../../State/ActionTypes/TicketTypes";
 import { getTicketsWithFilter } from "../../State/Actions/TicketActions";
 import styles from "./ModalFilterManageTicket.module.scss";
@@ -7,6 +16,7 @@ import { useDispatch } from "react-redux";
 import DatePickerCustom from "../../Components/DatePicker";
 import { DayRange } from "@hassanmojab/react-modern-calendar-datepicker";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import { CheckboxValueType } from "antd/lib/checkbox/Group";
 
 type ModalManageTicketType = {
   modalVisible: boolean;
@@ -15,6 +25,8 @@ type ModalManageTicketType = {
 
 const ModalFilterManageTicket = (props: ModalManageTicketType) => {
   const { modalVisible, setModalVisible } = props;
+  const [checkIn, setCheckIn] = useState<CheckboxValueType[]>([]);
+  const [checkAll, setCheckAll] = useState(true);
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -28,12 +40,25 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
     dateFrom: undefined,
     dateTo: undefined,
     statusUsage: "all",
-    checkIn: ["all"],
+  };
+
+  useEffect(() => {
+    if (checkIn.length === 0) {
+      setCheckAll(true);
+    }
+    if (checkIn.length > 0) {
+      setCheckAll(false);
+    }
+  }, [checkIn]);
+
+  const checkInOnchange = (e: CheckboxValueType[]) => {
+    setCheckIn(e);
   };
 
   const selectAllOnChange = (e: CheckboxChangeEvent) => {
+    setCheckAll(e.target.checked);
     if (e.target.checked) {
-      form.setFieldsValue({ checkIn: ["all"] });
+      setCheckIn([]);
     }
   };
 
@@ -43,6 +68,7 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
       dispatch(
         getTicketsWithFilter({
           ...value,
+          checkIn: checkIn as string[],
         }),
       );
       props.setModalVisible(false);
@@ -114,7 +140,6 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
         <div>
           <Form.Item
             className={styles.formItem}
-            // initialValue={"all"}
             name="statusUsage"
             label={<label className="label">Tình trạng sử dụng</label>}>
             <Radio.Group className={styles.radioContainer}>
@@ -129,23 +154,38 @@ const ModalFilterManageTicket = (props: ModalManageTicketType) => {
         <div>
           <Form.Item
             className={styles.formItem}
-            // initialValue={["all"]}
-            name="checkIn"
-            key="checkIn"
             label={<label className="label">Cổng Check - in</label>}>
-            <Checkbox.Group className={styles.checkboxContainer}>
-              <div className={styles.checkboxWrapper}>
-                <Checkbox onChange={selectAllOnChange} value={"all"}>
-                  Tất cả
-                </Checkbox>
-                <Checkbox value={"Cổng 1"}>Cổng 1</Checkbox>
-                <Checkbox value={"Cổng 2"}>Cổng 2</Checkbox>
-              </div>
-              <div className={styles.checkboxWrapper}>
-                <Checkbox value={"Cổng 3"}>Cổng 3</Checkbox>
-                <Checkbox value={"Cổng 4"}>Cổng 4</Checkbox>
-                <Checkbox value={"Cổng 5"}>Cổng 5</Checkbox>
-              </div>
+            <Checkbox
+              className={styles.checkAll}
+              checked={checkAll}
+              onChange={selectAllOnChange}>
+              Tất cả
+            </Checkbox>
+            <Checkbox.Group
+              value={checkIn}
+              onChange={checkInOnchange}
+              className={styles.checkboxContainer}>
+              <Row className={styles.checkboxWrapper}>
+                <Col span={8}></Col>
+                <Col span={8}>
+                  <Checkbox value={"Cổng 1"}>Cổng 1</Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox value={"Cổng 2"}>Cổng 2</Checkbox>
+                </Col>
+              </Row>
+
+              <Row className={styles.checkboxWrapper}>
+                <Col span={8}>
+                  <Checkbox value={"Cổng 3"}>Cổng 3</Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox value={"Cổng 4"}>Cổng 4</Checkbox>
+                </Col>
+                <Col span={8}>
+                  <Checkbox value={"Cổng 5"}>Cổng 5</Checkbox>
+                </Col>
+              </Row>
             </Checkbox.Group>
           </Form.Item>
         </div>

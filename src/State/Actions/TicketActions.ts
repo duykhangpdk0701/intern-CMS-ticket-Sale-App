@@ -116,7 +116,7 @@ export const getTicketsWithFilter =
         );
       }
       //filter check - in
-      if (!ticketFilter.checkIn.includes("all")) {
+      if (ticketFilter.checkIn.length !== 0) {
         tickets = tickets.filter((value) => {
           if (value.checkIn) {
             return ticketFilter.checkIn.includes(value.checkIn);

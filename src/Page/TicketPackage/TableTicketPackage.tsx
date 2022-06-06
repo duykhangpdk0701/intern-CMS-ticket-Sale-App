@@ -35,6 +35,7 @@ const TableTicketPackage = (props: TableTicketPackageType) => {
         className={styles.table}
         pagination={{
           position: ["bottomCenter"],
+          pageSize: 7,
         }}
         onHeaderRow={(columns, index) => ({
           className: styles.header,

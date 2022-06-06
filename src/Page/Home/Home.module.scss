@@ -19,7 +19,6 @@
 
 .chartLineContainer {
   width: 100%;
-  margin-bottom: 30px;
 }
 
 .chartLineTitleContainer {
@@ -70,6 +69,19 @@
 
 .chartPieWrapper {
   width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chartPieTextAlign {
+  align-self: flex-start;
+  margin-left: 16%;
+}
+
+.chartPieText {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .chartPieWrapperNoLegend {

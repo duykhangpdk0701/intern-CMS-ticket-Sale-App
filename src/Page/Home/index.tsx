@@ -44,10 +44,17 @@ const Home = () => {
         </div>
 
         <div className={styles.chartPieWrapperNoLegend}>
+          <Typography.Text className={styles.chartPieText}>
+            Gói gia đình
+          </Typography.Text>
           <ChartPie data={chartLineData1} />
         </div>
 
         <div className={styles.chartPieWrapper}>
+          <Typography.Text
+            className={`${styles.chartPieTextAlign} ${styles.chartPieText}`}>
+            Gói Sự kiện
+          </Typography.Text>
           <ChartPie data={chartLineData2} legend={true} />
         </div>
 

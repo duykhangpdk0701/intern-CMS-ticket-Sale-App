@@ -47,7 +47,6 @@ const TableInvoiceTicket = (props: TableInvoiceTicketType) => {
           return (
             <>
               <div>{date.date}</div>
-              <div>{date.time}</div>
             </>
           );
         }}

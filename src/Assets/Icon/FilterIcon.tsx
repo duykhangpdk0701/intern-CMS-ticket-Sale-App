@@ -12,9 +12,9 @@ const FilterSvg = () => {
       <path
         d="M21 1H1L9 10.46V17L13 19V10.46L21 1Z"
         stroke="#FF993C"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

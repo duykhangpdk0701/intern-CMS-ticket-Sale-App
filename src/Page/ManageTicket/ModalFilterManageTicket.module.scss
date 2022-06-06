@@ -27,6 +27,7 @@
 }
 
 .formItem {
+  position: relative;
   margin-bottom: 20px;
 }
 
@@ -45,12 +46,11 @@
   justify-content: space-between;
 }
 
-.checkboxContainer {
-  width: 100%;
+.checkAll {
+  position: absolute;
+  z-index: 10;
 }
 
-.checkboxWrapper {
+.checkboxContainer {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
 }
